@@ -1,5 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const { token } = require('../config.json');
 
 const fs = require("fs");
 const path = require('node:path');
@@ -12,7 +13,7 @@ const { deployCommands } = require("./handler/deployCommands");
 const client = new Client({ intents: 32767 });
 client.commands = new Collection();
 
-const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);
+const rest = new REST({ version: "10" }).setToken(token);
 
 
 // load commands
@@ -33,4 +34,4 @@ client.on("ready", () => {
     }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(token);
