@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -8,7 +8,8 @@ module.exports = {
             option.setName('userid')
                 .setDescription('The user ID to unban')
                 .setRequired(true)
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 	async execute(interaction) {
         const target = interaction.options.getString('userid');
 
@@ -23,7 +24,5 @@ module.exports = {
         } else {
             await interaction.reply(`Provided value is not an integer or valid user ID`);
         }
-
-
 	},
 };

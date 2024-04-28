@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,7 +13,8 @@ module.exports = {
             option.setName('reason')
                 .setDescription('Reason for banning (optional)')
                 .setRequired(false)
-        ),
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 	async execute(interaction) {
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
