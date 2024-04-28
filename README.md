@@ -1,2 +1,2 @@
-# okay hi guys
-## erm what the sigma
+# MaoZedong
+## experimental discord bot
