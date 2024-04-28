@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/MaoZedong-Bot/Mao/issues"
   },
-  "homepage": "https://github.com/MaoZedong-Bot/Mao#readme"
+  "homepage": "https://github.com/MaoZedong-Bot/Mao#readme",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
 }
