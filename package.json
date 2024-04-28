@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/MaoZedong-Bot/Mao#readme",
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "ascii-table": "^0.0.9",
+    "discord.js": "^14.14.1",
+    "fs": "^0.0.1-security"
   }
 }
