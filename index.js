@@ -23,7 +23,7 @@ deployCommands(client);
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator' }] });
+    client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator 2024' }] });
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
