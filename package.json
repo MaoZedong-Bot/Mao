@@ -1,6 +1,6 @@
 {
   "name": "mao",
-  "version": "1.0.0",
+  "version": "20240430.01",
   "description": "Mao Zedong bot",
   "main": "index.js",
   "scripts": {
