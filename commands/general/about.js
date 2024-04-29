@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
-    const { version } = require('../../package.json');
+    const: { version } = require('../../package.json'),
     data: new SlashCommandBuilder()
         .setName('about')
         .setDescription('All hail the CCP'),
