@@ -3,7 +3,6 @@ const csv = require('csv-parser');
 const { parse } = require('json2csv');
 
 async function csvDeleteWarn(idToRemove) {
-
     const data = await new Promise((resolve, reject) => {
         const dataArray = [];
         fs.createReadStream('./db/warns.csv')
@@ -20,7 +19,6 @@ async function csvDeleteWarn(idToRemove) {
     });
 
     const updatedData = data.filter((row) => row.id !== idToRemove);
-
     const csvData = parse(updatedData);
 
     fs.writeFile('./db/warns.csv', csvData, (err) => {

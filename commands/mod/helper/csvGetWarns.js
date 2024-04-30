@@ -6,22 +6,20 @@ function csvGetWarns(user) {
     const matchingReasons = [];
     const matchingIDs = [];
 
-    // Read from the CSV file
     fs.createReadStream('./db/warns.csv')
       .pipe(csv())
       .on('data', (row) => {
-        // Check if the user in the row matches the requested user
         if (row.user === String(user)) {
-          matchingReasons.push(row.reason); // Add the reason to the matchingReasons array
+          matchingReasons.push(row.reason); 
           matchingIDs.push(row.id);
         }
         
       })
       .on('end', () => {
-        resolve({ matchingReasons, matchingIDs }); // Resolve the promise with matchingReasons once CSV parsing is complete
+        resolve({ matchingReasons, matchingIDs }); 
       })
       .on('error', (error) => {
-        reject(error); // Reject the promise if an error occurs during CSV parsing
+        reject(error);
       });
   });
 }

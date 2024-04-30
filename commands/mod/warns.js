@@ -19,10 +19,6 @@ module.exports = {
 
         const { matchingReasons, matchingIDs } = await csvGetWarns(targetId);
         console.log(targetId);
-        //console.log(warns);
-        
-
-        //await interaction.reply(warns.toString());
 
         const embed = new EmbedBuilder()
             .setTitle(`Warns for ${target.username}`)
