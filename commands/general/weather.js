@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
-const { maptiler_key } = require('../../config.json');
+const { maptilerKey } = require('../../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
         const input = interaction.options.getString('location');
 
         // geocoding
-        const locJson = await axios.get(`https://api.maptiler.com/geocoding/${input}.json?key=${maptiler_key}&types=country,region,subregion,county,municipality&limit=1`);
+        const locJson = await axios.get(`https://api.maptiler.com/geocoding/${input}.json?key=${maptilerKey}&types=country,region,subregion,county,municipality&limit=1`);
         const locJson_parsed = locJson.data;
         let location = "";
         locJson_parsed.features.forEach(feature => {
