@@ -43,6 +43,7 @@ module.exports = {
                 .setTitle(repoData.full_name)
                 .setURL(repoData.html_url)
                 .setDescription(repoData.description || 'No description provided.')
+                .setThumbnail(repoData.owner.avatar_url)
                 .addFields(
                     { name: 'Stars', value: repoData.stargazers_count.toLocaleString(), inline: true },
                     { name: 'Forks', value: repoData.forks_count.toLocaleString(), inline: true },
