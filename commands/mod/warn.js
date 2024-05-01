@@ -23,7 +23,7 @@ module.exports = {
 
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason');
-        const ident = generateRandomString(25);
+        const ident = generateRandomString(10);
 
         csvWrite('./db/warns.csv', target.id, reason, ident);
 

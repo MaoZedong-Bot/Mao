@@ -18,7 +18,6 @@ module.exports = {
         const targetId = String(target.id);
 
         const { matchingReasons, matchingIDs } = await csvGetWarns(targetId);
-        console.log(targetId);
 
         const embed = new EmbedBuilder()
             .setTitle(`Warns for ${target.username}`)
@@ -28,6 +27,10 @@ module.exports = {
             embed.addFields({ name: `Warn \`${matchingIDs[index]}\`:`, value: `\`${reason}\`` });
         })
 
-        interaction.reply({ embeds: [embed] });
+        if (matchingReasons == "") {
+            interaction.reply(`No warns found for ${target}`)
+        } else {
+            interaction.reply({ embeds: [embed] });
+        }
 	},
 };
