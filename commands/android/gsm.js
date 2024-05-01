@@ -18,7 +18,11 @@ module.exports = {
         let categories = [];
         let specName = "";
         let specValue = "";
-        const excludedSpecs = ['Speed', '2G bands', 'SIM', ' ', 'Infrared port', 'Radio', 'Sensors', 'Video', 'Features']
+        const excludedSpecs = [
+            'Speed', '2G bands', '3G bands', '4G bands', 'SIM', ' ', 
+            'Infrared port', 'Radio', 'Sensors', 'Video', 'Features',
+            'CPU', 'GPU', 'Protection',
+            'NFC', 'Positioning']
         const excludedCategories = ['Tests', 'Features', 'Misc']
 
         const deviceList = await gsmarena.search.search(deviceQuery);
@@ -28,10 +32,6 @@ module.exports = {
             deviceNames.push(device.name);
             deviceIDs.push(device.id);
         });
-
-        /*for (let i = 0; i < deviceNames.length; i++) {
-            deviceNameList += `${i+1}. ${deviceNames[i]}\n`
-        }*/
 
         if (deviceNames.length == 0) {
             interaction.reply(`Could not find such device! (${deviceQuery})`)
@@ -86,7 +86,7 @@ module.exports = {
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${deviceInfo.name}`)
-                    .setURL(`https://www.gsmarena.com/${deviceInfo.id}.php`)
+                    .setURL(`https://www.gsmarena.com/${interaction.values[0]}.php`)
                     .setColor('#0099ff')
                     .setThumbnail(deviceInfo.img)
                     .setFooter({ text: 'Specs by GSMarena' });
