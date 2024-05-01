@@ -19,7 +19,7 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 	async execute(interaction) {
         const { csvWrite } = require('./helper/csvWrite');
-        const { generateRandomString } = require('./helper/warnIdentGenerator');
+        const { generateRandomString } = require('./helper/generateRandomString');
 
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason');
