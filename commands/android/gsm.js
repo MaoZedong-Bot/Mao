@@ -22,7 +22,7 @@ module.exports = {
             'Speed', '2G bands', '3G bands', '4G bands', 'SIM', ' ', 
             'Infrared port', 'Radio', 'Sensors', 'Video', 'Features',
             'CPU', 'GPU', 'Protection',
-            'NFC', 'Positioning']
+            'NFC', 'Positioning', 'Loudspeaker ', 'Loudspeaker']
         const excludedCategories = ['Tests', 'Features', 'Misc']
 
         const deviceList = await gsmarena.search.search(deviceQuery);
@@ -43,6 +43,9 @@ module.exports = {
             .setPlaceholder('Select a model');
 
         for (let i = 0; i < deviceNames.length; i++) {
+            if (i + 1 >= 26) {
+                break;
+            }
             dropdown.addOptions(
                 new StringSelectMenuOptionBuilder()
                     .setLabel(deviceNames[i])
