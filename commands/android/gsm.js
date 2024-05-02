@@ -42,7 +42,7 @@ module.exports = {
             .setCustomId(interaction.id)
             .setPlaceholder('Select a model');
 
-        for (let i = 0; i < deviceNames.length; i++) {
+        for (let i = 0; i < 25; i++) {
             dropdown.addOptions(
                 new StringSelectMenuOptionBuilder()
                     .setLabel(deviceNames[i])
