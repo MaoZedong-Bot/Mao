@@ -28,13 +28,13 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setColor(0x0099FF)
                 .setTitle(`${romTypeTitle} ROM Versions for ${device}`)
+                .setFooter({text: 'Info from xiaomifirmwareupdater.com', iconURL: 'https://xiaomifirmwareupdater.com/images/xfu.png'})
                 .addFields(
                     romVersions.map(({ deviceName, branch, romName }) => ({
                         name: `${deviceName} ${branch}`,
                         value: romName
                     }))
                 )
-                .setTimestamp();
 
             interaction.reply({ embeds: [embed] });
         } catch (error) {
