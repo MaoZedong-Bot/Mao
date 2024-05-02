@@ -39,7 +39,7 @@ module.exports = {
             interaction.reply({ embeds: [embed] });
         } catch (error) {
             console.error('Error executing command:', error);
-            interaction.reply('An error occurred while processing your request.');
+            interaction.reply('Device lookup failed!');
         }
     },
 };
