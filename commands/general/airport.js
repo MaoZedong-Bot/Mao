@@ -52,7 +52,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle(`${airport.name} (${icao}/${iata})`)
-            .setColor('#FF5A36');
+            .setColor(0x0099FF);
             embed.addFields(
                 { name: 'Location', value: `${airport.municipality}, ${airport.iso_country} ${emoji}`, inline: true },
                 { name: 'Continent', value: `${airport.continent}`, inline: true },
