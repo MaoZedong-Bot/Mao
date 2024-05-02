@@ -11,7 +11,8 @@ module.exports = {
                 .setRequired(true)
         ),
 	async execute(interaction) {
-        const deviceQuery = interaction.options.getString('device');
+        let deviceQuery = interaction.options.getString('device');
+        deviceQuery = deviceQuery.replaceAll(' ', '_');
         let deviceNames = [];
         let deviceIDs = [];
         let deviceNameList = "";
