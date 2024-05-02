@@ -27,6 +27,8 @@
     "csv-parser": "^3.0.0",
     "discord.js": "^14.14.1",
     "fs": "^0.0.1-security",
-    "json2csv": "^6.0.0-alpha.2"
+    "gsmarena-api": "^2.0.5",
+    "json2csv": "^6.0.0-alpha.2",
+    "uuid": "^9.0.1"
   }
 }
