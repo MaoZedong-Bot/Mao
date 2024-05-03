@@ -30,14 +30,12 @@ module.exports = {
 
         brandJson = jsonData[lowerCaseKeys[`${brand}`.toLowerCase()]]
         const deviceJson = brandJson
-            .filter(item => item.name.toLowerCase().includes(device.toLowerCase())) // Filter items with 'name' containing the search term
+            .filter(item => item.name.toLowerCase().includes(device.toLowerCase())) 
             .map(item => ({ name: item.name, device: item.device }));
 
         const uniqueDevices = deviceJson
-            .map(({ name, device }) => ({ name, device })) // Extract 'name' and 'device' properties into a new object
+            .map(({ name, device }) => ({ name, device })) 
             .filter((value, index, self) => self.findIndex(item => item.name === value.name && item.device === value.device) === index);
-        
-        console.log(uniqueDevices);
 
         const embed = new EmbedBuilder()
             .setTitle(`Codename(s) for \'${brand} ${device}\'`)
