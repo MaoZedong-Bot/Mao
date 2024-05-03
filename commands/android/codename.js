@@ -19,6 +19,7 @@ module.exports = {
         const brand = interaction.options.getString('brand');
         const device = interaction.options.getString('device');
         const url = 'https://raw.githubusercontent.com/androidtrackers/certified-android-devices/master/by_brand.json';
+        let counter = 0;
 
         const json = await axios.get(`${url}`);
         const jsonData = json.data;
@@ -42,7 +43,12 @@ module.exports = {
             .setColor('#2eb237');
 
         uniqueDevices.forEach(item => {
-            embed.addFields({ name: item.name, value: `\`${item.device}\``});
+            if (counter < 25) {
+                embed.addFields({ name: item.name, value: `\`${item.device}\``, inline: true });
+                counter++;
+            } else {
+                return;
+            }
         });
 
 
