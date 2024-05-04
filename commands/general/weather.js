@@ -74,7 +74,7 @@ module.exports = {
         } else if ([45, 48, 50].includes(weatherCode)) {
             iconNr = "45d";
         } else if ([95, 96, 99].includes(weatherCode)) {
-            iconNr = "95d";
+            iconNr = "11d";
         } else {
             iconNr = "NA";
         }
