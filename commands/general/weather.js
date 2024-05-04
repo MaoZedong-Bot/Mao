@@ -35,14 +35,10 @@ module.exports = {
 
         const lon = coords[0][1];
         const lat = coords[1][1];
-        console.log(`formatted lon ${lon}`)
-        console.log(`formatted lat ${lat}`)
         const weatherJson = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,weather_code,is_day`);
         const weatherJson_parsed = weatherJson.data;
-        console.log(weatherJson_parsed)
         const windDirection = weatherJson_parsed.current.wind_direction_10m;
         const weatherCode = weatherJson_parsed.current.weather_code;
-        console.log("weather: ", weatherCode)
         if (windDirection > 338 && windDirection <= 360) {
             wind = "↑";
         } else if (windDirection >= 0 && windDirection <= 22) {

@@ -13,8 +13,6 @@ module.exports = {
 	async execute(interaction) {
         const amount = interaction.options.getInteger('amount');
 
-        console.log(amount)
-
         if (amount <= 0 || amount > 100) {
             return interaction.reply('You can only delete between 1 and 100 messages at a time.');
         }
