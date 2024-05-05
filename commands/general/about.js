@@ -43,6 +43,11 @@ module.exports = {
                     name: 'RAM Usage',
                     value: `RSS: ${(rss / 1024 / 1024).toFixed(2)} MB\nHeap: ${(heapUsed / 1024 / 1024).toFixed(2)} MB / ${(heapTotal / 1024 / 1024).toFixed(2)} MB`,
                     inline: true
+                },
+                {
+                    name: 'Ping',
+                    value: `${interaction.client.ws.ping}`,
+                    inline: true
                 }
             );
 
