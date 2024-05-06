@@ -7,7 +7,7 @@ module.exports = {
 		.setName('deletewarn')
 		.setDescription('Delete a warn by ID')
         .addStringOption(option =>
-            option.setName('id')
+                option.setName('id')
                 .setDescription('The ID to remove')
                 .setRequired(true)
         )

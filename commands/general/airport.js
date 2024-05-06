@@ -44,8 +44,6 @@ module.exports = {
         const website = airport.home_link;
         const keywords = airport.keywords;
 
-        console.log(airport)
-
         const lower = country.toLowerCase();
         emoji = `:flag_${lower}:`
         

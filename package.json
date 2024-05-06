@@ -22,14 +22,19 @@
   },
   "homepage": "https://github.com/MaoZedong-Bot/Mao#readme",
   "dependencies": {
+    "@discordjs/voice": "^0.17.0",
     "ascii-table": "^0.0.9",
     "axios": "^1.6.8",
     "csv-parser": "^3.0.0",
+    "discord-player": "^6.6.8",
+    "discord-voip": "^0.1.3",
     "discord.js": "^14.14.1",
     "enmap": "^6.0.1",
     "fs": "^0.0.1-security",
     "gsmarena-api": "^2.0.5",
     "json2csv": "^6.0.0-alpha.2",
-    "uuid": "^9.0.1"
+    "mediaplex": "^0.0.9",
+    "uuid": "^9.0.1",
+    "youtube-ext": "^1.1.25"
   }
 }
