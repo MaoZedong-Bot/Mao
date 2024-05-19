@@ -29,6 +29,7 @@
     "discord-player": "^6.6.8",
     "discord-voip": "^0.1.3",
     "discord.js": "^14.14.1",
+    "enmap": "^6.0.1",
     "fs": "^0.0.1-security",
     "gsmarena-api": "^2.0.5",
     "json2csv": "^6.0.0-alpha.2",
