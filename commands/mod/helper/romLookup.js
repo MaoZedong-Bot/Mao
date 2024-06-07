@@ -3,12 +3,13 @@ const cheerio = require('cheerio');
 
 async function getROMVersions(device, romType) {
     const deviceFormatted = device.replace(/ /g, '%20');
-    const miuiUrl = `https://xiaomifirmwareupdater.com/miui/${deviceFormatted}`;
-    const hyperosUrl = `https://xiaomifirmwareupdater.com/hyperos/${deviceFormatted}`;
+    const baseUrl = 'https://xmfirmwareupdater.com';
+    const miuiUrl = `${baseUrl}/miui/${deviceFormatted}`;
+    const hyperosUrl = `${baseUrl}/hyperos/${deviceFormatted}`;
 
     let response;
     let html;
-    let romVersions = [];
+    const romVersions = [];
 
     try {
         response = await axios.get(hyperosUrl);
@@ -23,17 +24,18 @@ async function getROMVersions(device, romType) {
     html = response.data;
     const $ = cheerio.load(html);
 
-    const tableRows = $('#miui tbody tr');
-    tableRows.each((index, element) => {
+    $('#miui tbody tr').each((index, element) => {
         const tds = $(element).find('td');
-        const deviceName = $(tds[0]).text();
-        const branch = $(tds[1]).text();
-        const type = $(tds[2]).text();
-        const rom = $(tds[3]).text();
+        const deviceName = $(tds[0]).text().trim();
+        const branch = $(tds[1]).text().trim();
+        const type = $(tds[2]).text().trim();
+        const rom = $(tds[3]).text().trim();
+        const linkElement = $(tds[7]).find('a');
+        const downloadLink = linkElement.length ? `${baseUrl}${encodeURI(linkElement.attr('href'))}` : 'No link available';
 
         if (type.toLowerCase().includes(romType)) {
             const romName = rom.replace(/ (Fastboot|Recovery)$/i, '');
-            romVersions.push({ deviceName, branch, romName });
+            romVersions.push({ deviceName, branch, romName, downloadLink });
         }
     });
 
