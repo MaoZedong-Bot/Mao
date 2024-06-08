@@ -39,7 +39,7 @@ client.on("ready", () => {
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
-        console.log('Working Fine');
+        channel.send('Working');
     } else {
         console.error('Could not find the specified channel.');
     }
