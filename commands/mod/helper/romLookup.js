@@ -3,6 +3,7 @@ const cheerio = require('cheerio');
 
 async function getROMVersions(device, romType) {
     const deviceFormatted = device.replace(/ /g, '%20');
+
     const baseUrl = 'https://xmfirmwareupdater.com';
     const miuiUrl = `${baseUrl}/miui/${deviceFormatted}`;
     const hyperosUrl = `${baseUrl}/hyperos/${deviceFormatted}`;
