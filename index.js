@@ -39,8 +39,7 @@ client.on("ready", () => {
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
-        channel.send('dont mess with me again… 😈 baka… 😈');
-        channel.send('# It\'s either Spanish or Vanish, <@1145477822123626596>.');
+        channel.send('Working');
     } else {
         console.error('Could not find the specified channel.');
     }
