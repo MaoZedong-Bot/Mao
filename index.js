@@ -2,6 +2,7 @@ const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
+const { version } = require('./package.json');
 
 const fs = require("fs");
 const path = require('node:path');
@@ -39,7 +40,7 @@ client.on("ready", () => {
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
-        channel.send('Working');
+        channel.send(`# Welcome to Mao Zedong v${version}`);
     } else {
         console.error('Could not find the specified channel.');
     }

@@ -29,8 +29,8 @@ module.exports = {
                 .setTitle(`Added to queue`)
                 .setColor('#00FFFF')
                 .setThumbnail(track.thumbnail)
-                .setDescription(`${track.author} - **${track.title}**\nDuration: ${track.duration}`)
-                .setFooter({ text: `Requested by ${username}, ${track.url}` });
+                .setDescription(`**${track.title}**\nDuration: ${track.duration}`)
+                .setFooter({ text: `Requested by ${username}` });
     
             return interaction.followUp({ embeds: [embed] });
         } catch (e) {
