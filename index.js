@@ -3,6 +3,7 @@ const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType } = re
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 const { autoModeration } = require('./commands/mod/helper/autoModeration'); // DAMN!?
+const { version } = require('./package.json');
 
 const fs = require("fs");
 const path = require('node:path');
@@ -39,7 +40,7 @@ client.on("ready", () => {
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
-        channel.send('Working');
+        channel.send(`# Welcome to Mao Zedong v${version}`);
     } else {
         console.error('Could not find the specified channel.');
     }
