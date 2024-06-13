@@ -2,6 +2,7 @@ const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
+const { autoModeration } = require('./commands/mod/helper/autoModeration'); // DAMN!?
 
 const fs = require("fs");
 const path = require('node:path');
@@ -11,11 +12,10 @@ const { loadCommands } = require("./handler/slashCommands");
 const { loadEvents } = require("./handler/events");
 const { deployCommands } = require("./handler/deployCommands");
 
-const client = new Client({ intents: 14023 });
+const client = new Client({ intents: 46791 });
 client.commands = new Collection();
 
 const rest = new REST({ version: "10" }).setToken(token);
-
 
 // load commands
 loadCommands(client);
@@ -54,5 +54,16 @@ player.events.on('playerStart', (queue, track) => {
 
 // discord-player debug
 //player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
+
+// He sees everything
+client.on('messageCreate', message => {
+    // Ignore messages from the bot
+    if (message.author.bot) return;
+
+    console.log(`Message from ${message.author.tag}: ${message.content}`);
+
+    // Warm up the grill
+    autoModeration(message);
+});
 
 client.login(token);
