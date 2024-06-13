@@ -24,6 +24,7 @@ module.exports = {
 
             const romVersions = await getROMVersions(device, romType);
 
+
             if (romVersions.length === 0) {
                 return interaction.reply(`No ${romType} ROMs found for ${device}.`);
             }
