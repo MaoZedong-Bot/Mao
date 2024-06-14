@@ -1,5 +1,5 @@
 const { REST } = require("@discordjs/rest");
-const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType } = require("discord.js");
+const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 const { autoModeration } = require('./commands/mod/helper/autoModeration'); // DAMN!?
@@ -33,6 +33,14 @@ const player = new Player(client, {
 });
 audio(player);
 
+// startup embed
+icon = new AttachmentBuilder(`./images/ccp.png`);
+const embed = new EmbedBuilder()
+            .setTitle(`Welcome to Mao Zedong v${version}`)
+            .setColor('#ff0000')
+            .setThumbnail(`attachment://ccp.png`)
+            .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
+
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
     //client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator 2024' }] });
@@ -40,7 +48,7 @@ client.on("ready", () => {
 
     const channel = client.channels.cache.get('1231228286148018321');
     if (channel) {
-        channel.send(`# Welcome to Mao Zedong v${version}`);
+        channel.send({ embeds: [embed], files: [icon]  });
     } else {
         console.error('Could not find the specified channel.');
     }
