@@ -38,6 +38,7 @@ icon = new AttachmentBuilder(`./images/ccp.png`);
 const embed = new EmbedBuilder()
             .setTitle(`Welcome to Mao Zedong v${version}`)
             .setColor('#ff0000')
+            .setDescription('Glory to the CCP!')
             .setThumbnail(`attachment://ccp.png`)
             .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
 
