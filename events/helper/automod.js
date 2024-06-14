@@ -1,10 +1,12 @@
+const { Events } = require('discord.js');
+
 const fs = require('fs');
 const path = require('path');
 
-function autoModeration(message) {
+async function autoModeration(message, interaction) {
     const prohibitedWords = LoadBadWords();
 
-    console.log(`Checking message: ${message.content}`);
+    console.log(`Checking message: ${message}`);
 
     const refinedRegexPattern = new RegExp(
         prohibitedWords.map(word => {
@@ -16,8 +18,11 @@ function autoModeration(message) {
 
     const inviteLinkRegex = /(?:https?:\/\/)?(?:www\.|ptb\.|canary\.)?(?:discord\.gg|discord(?:app)?\.(?:com|gg)\/(?:invite|servers))\/[a-z0-9-_]+/gi;
 
-    if (refinedRegexPattern.test(message.content) || inviteLinkRegex.test(message.content)) {
-        deleteMessage(message);
+    if (refinedRegexPattern.test(message) || inviteLinkRegex.test(message)) {
+        const msgId = interaction.id
+        const chn = interaction.channel;
+        const msg = await chn.messages.fetch(msgId);
+        deleteMessage(msg);
     }
 }
 
@@ -35,32 +40,32 @@ function LoadBadWords() {
 
 function WordFilter(word) {
     const substitutions = {
-        'a': '[aаáâäàãåā]',
-        'b': '[bв]',
+        'a': '[aаáâäàãåā4@]',
+        'b': '[bв8]',
         'c': '[cсςćč]',
         'd': '[dԁđ]',
-        'e': '[eеéèêëēėę]',
+        'e': '[eеéèêëēėę3]',
         'f': '[fғ]',
-        'g': '[gğġ]',
-        'h': '[hһ]',
-        'i': '[iіíìîïīįı]',
+        'g': '[gğġ6]',
+        'h': '[hһ#]',
+        'i': '[iіíìîïīįı1!]',
         'j': '[jј]',
         'k': '[kκ]',
-        'l': '[lӏ]',
+        'l': '[lӏ1]',
         'm': '[mм]',
         'n': '[nпñń]',
-        'o': '[oоóòôöõøō]',
+        'o': '[oоóòôöõøō0]',
         'p': '[pр]',
         'q': '[qɋ]',
         'r': '[rг]',
-        's': '[sѕ]',
-        't': '[tт]',
+        's': '[sѕ$5]',
+        't': '[tт7]',
         'u': '[uυúùûüū]',
         'v': '[vν]',
         'w': '[wω]',
         'x': '[xх]',
         'y': '[yуýÿ]',
-        'z': '[zźżž]',
+        'z': '[zźżž2]',
         'č': '[č]',
     };
 
@@ -71,18 +76,11 @@ function WordFilter(word) {
     }).join('') + plurals;
 }
 
-function deleteMessage(message) {
-    message.delete()
-        .then(() => {
-            message.channel.send(`${message.author}, Do you kiss your mother with that mouth?`);
-            console.log(`Deleted message from ${message.author.tag}`);
-        })
-        .catch(console.error);
+async function deleteMessage(message) {
+    await message.delete()
 }
 
 // I have yet to figure out what this thing does
 function escape(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
-
-module.exports = { autoModeration };

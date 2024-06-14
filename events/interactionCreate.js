@@ -31,6 +31,6 @@ module.exports = {
 		} else if (interaction.isButton()) {
 			// Permanent button menus
 			buttonIdHandler(interaction.customId, interaction.message)
-		}
+		} 
 	},
 };

@@ -70,10 +70,10 @@ client.on('messageCreate', message => {
     // Ignore messages from the bot
     if (message.author.bot) return;
 
-    console.log(`Message from ${message.author.tag}: ${message.content}`);
+    //console.log(`Message from ${message.author.tag}: ${message.content}`);
 
     // Warm up the grill
-    autoModeration(message);
+    //autoModeration(message);
 });
 
 client.login(token);
