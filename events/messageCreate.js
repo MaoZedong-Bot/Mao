@@ -5,11 +5,12 @@ module.exports = {
 
 
 	async execute(interaction) {
+                
+                const { autoModeration } = require('./helper/automod');
 
-        const { autoModeration } = require('./helper/automod');
-
-        const message = interaction.content;
-        autoModeration(message, interaction);
+                const message = interaction.content;
+                if (interaction.author.bot) return;
+                autoModeration(message, interaction);
 
 	},
 

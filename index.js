@@ -66,14 +66,4 @@ player.events.on('playerStart', (queue, track) => {
 //player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
 
 // He sees everything
-client.on('messageCreate', message => {
-    // Ignore messages from the bot
-    if (message.author.bot) return;
-
-    //console.log(`Message from ${message.author.tag}: ${message.content}`);
-
-    // Warm up the grill
-    //autoModeration(message);
-});
-
 client.login(token);
