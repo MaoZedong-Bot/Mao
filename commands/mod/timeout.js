@@ -37,6 +37,11 @@ module.exports = {
         const time = interaction.options.getInteger('time');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
+        if(targetID.permissions.has(PermissionFlagsBits.ModerateMembers) || targetID.permissions.has(PermissionFlagsBits.Administrator)) {
+            await interaction.reply(`You can't timeout moderators!`)
+            return;
+        }
+
         if (unit == 'm') {
             const timeoutLength = time * 60 * 1000;
             await targetID.timeout(timeoutLength, reason);

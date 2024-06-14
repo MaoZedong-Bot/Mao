@@ -19,6 +19,12 @@ module.exports = {
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
+        const targetID = await interaction.guild.members.fetch(target.id);
+        if(targetID.permissions.has(PermissionFlagsBits.ModerateMembers) || targetID.permissions.has(PermissionFlagsBits.Administrator)) {
+            await interaction.reply(`You can't ban moderators!`)
+            return;
+        }
+
         await interaction.guild.members.ban(target);
         await interaction.reply(`${target.username} was banned for reason: **${reason}**.`);
         await console.log(`${target.username} was banned for reason: ${reason}.`);

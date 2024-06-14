@@ -2,11 +2,7 @@ const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
-const { autoModeration } = require('./commands/mod/helper/autoModeration'); // DAMN!?
 const { version } = require('./package.json');
-
-const fs = require("fs");
-const path = require('node:path');
 
 // our handlers
 const { loadCommands } = require("./handler/slashCommands");
@@ -63,7 +59,8 @@ player.events.on('playerStart', (queue, track) => {
 });
 
 // discord-player debug
-//player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
+console.log(player.scanDeps());
+player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
 
 // He sees everything
 client.login(token);

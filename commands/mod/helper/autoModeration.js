@@ -16,9 +16,12 @@ function autoModeration(message) {
 
     const inviteLinkRegex = /(?:https?:\/\/)?(?:www\.|ptb\.|canary\.)?(?:discord\.gg|discord(?:app)?\.(?:com|gg)\/(?:invite|servers))\/[a-z0-9-_]+/gi;
 
-    if (refinedRegexPattern.test(message.content) || inviteLinkRegex.test(message.content)) {
-        deleteMessage(message);
-    }
+    //if (refinedRegexPattern.test(message.content) || inviteLinkRegex.test(message.content)) {
+        const matches = message.content.match(refinedRegexPattern);
+        const matchedWord = matches.find(match => prohibitedWords.some(word => new RegExp(WordFilter(word), 'gi').test(match)));
+        console.log(`Matched word: ${matchedWord}`);
+        //deleteMessage(message);
+    //}
 }
 
 function LoadBadWords() {
