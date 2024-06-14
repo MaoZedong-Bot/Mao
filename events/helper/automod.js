@@ -84,3 +84,7 @@ async function deleteMessage(message) {
 function escape(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+module.exports = {
+    autoModeration,
+}
