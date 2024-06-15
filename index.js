@@ -3,6 +3,7 @@ const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, Attac
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 const { version } = require('./package.json');
+const sqlite3 = require('sqlite3').verbose();
 
 // our handlers
 const { loadCommands } = require("./handler/slashCommands");
@@ -28,6 +29,34 @@ const player = new Player(client, {
     skipFFmpeg: false 
 });
 audio(player);
+
+
+// holy hell we got SQL
+let db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Connected to the cat database.');
+});
+const tableName = 'cat';
+db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
+    if (err) {
+        console.error(err.message);
+    }
+    if (row) {
+        console.log(`Table ${tableName} exists.`)
+    } else {
+        console.log(`Creating table ${tableName}`)
+        db.run(`CREATE TABLE IF NOT EXISTS cat(
+            userid TEXT PRIMARY KEY,
+            count INTEGER,
+            date INTEGER
+        )`);
+    }
+})
+db.close();
+
+
 
 // startup embed
 icon = new AttachmentBuilder(`./images/ccp.png`);
@@ -59,7 +88,7 @@ player.events.on('playerStart', (queue, track) => {
 });
 
 // discord-player debug
-console.log(player.scanDeps());
+//console.log(player.scanDeps());
 player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
 
 // He sees everything
