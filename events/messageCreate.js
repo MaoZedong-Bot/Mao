@@ -9,10 +9,11 @@ module.exports = {
         
         const { autoModeration } = require('./helper/automod');
 
+        if (interaction.author.bot) return;
+
         const message = interaction.content;
         const member = await interaction.guild.members.fetch(interaction.author.id);
         const role = interaction.guild.roles.cache.find(r => r.name === 'piss');
-        if (interaction.author.bot) return;
         autoModeration(message, interaction);
 
         async function updateMessageCount(interaction) {

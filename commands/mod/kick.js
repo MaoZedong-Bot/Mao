@@ -16,6 +16,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 	async execute(interaction) {
+        const { log } = require('./helper/log');
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
@@ -27,6 +28,8 @@ module.exports = {
 
         await interaction.guild.members.kick(target);
         await interaction.reply(`${target.username} was kicked for reason: **${reason}**.`);
+        log(interaction, 4, null, target, reason, null, null);
+
         await console.log(`${target.username} was kicked for reason: **${reason}**.`);
 	},
 };

@@ -18,6 +18,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 	async execute(interaction) {
+        const { log } = require('./helper/log');
         const { csvWrite } = require('./helper/csvWrite');
         const { generateRandomString } = require('./helper/generateRandomString');
 
@@ -27,7 +28,9 @@ module.exports = {
 
         csvWrite('./db/warns.csv', target.id, reason, ident);
 
+        log(interaction, 1, null, target, reason);
+
         await interaction.reply(`${target} was warned for reason: **${reason}**.`);
-        await console.log(`${target.username} was warned for reason: **${reason}**.`);
+        //await console.log(`${target.username} was warned for reason: **${reason}**.`);
 	},
 };

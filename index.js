@@ -72,7 +72,7 @@ client.on("ready", () => {
     //client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator 2024' }] });
     client.user.setActivity('Karma by Jojo Siwa', { type: ActivityType.Listening });
 
-    const channel = client.channels.cache.get('1231228286148018321');
+    const channel = client.channels.cache.get('1089546068565446676');
     if (channel) {
         channel.send({ embeds: [embed], files: [icon]  });
     } else {

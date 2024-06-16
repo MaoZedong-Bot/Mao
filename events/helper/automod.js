@@ -5,6 +5,8 @@ const path = require('path');
 
 async function autoModeration(message, interaction) {
 
+    const { log } = require('../../commands/mod/helper/log');
+
     if(interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
         return;
     }
@@ -24,7 +26,6 @@ async function autoModeration(message, interaction) {
 
     const matches = message.match(refinedRegexPattern);
 
-    let matchWord;
     if (matches || inviteLinkRegex.test(message)) {
         if (matches) {
             const matchedWords = matches.map(match => {
@@ -97,6 +98,8 @@ function WordFilter(word) {
 async function punish(message, interaction, matchedWord) {
 
     const dictionary = ['nigger', 'nigga', 'nigglet', 'nigr', 'nigg']
+    const { log } = require('../../commands/mod/helper/log');
+
 
     await message.delete()
     await interaction.channel.send(`<@${interaction.author.id}> you cant be saying that !!`)
@@ -108,7 +111,10 @@ async function punish(message, interaction, matchedWord) {
     }
     if (isMatch) {
         targetID.timeout(43200000, 'N word');
+        log(interaction, 3, interaction.content, interaction.author, 'N word', `12h`, true);
         await interaction.channel.send(`<@${interaction.author.id}> was timed out for **12h**: ***N word.***`);
+    } else {
+        log(interaction, 3, interaction.content, interaction.author, null, null, false);
     }
 
 }

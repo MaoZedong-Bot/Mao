@@ -31,6 +31,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
 	async execute(interaction) {
+        const { log } = require('./helper/log');
         const target = interaction.options.getUser('user');
         const targetID = await interaction.guild.members.fetch(target.id);
         const unit = interaction.options.getString('unit');
@@ -45,16 +46,19 @@ module.exports = {
         if (unit == 'm') {
             const timeoutLength = time * 60 * 1000;
             await targetID.timeout(timeoutLength, reason);
+            log(interaction, 2, null, target, reason, `${time}${unit}`);
             await interaction.reply(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
             await console.log(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
         } else if (unit == 'h') {
             const timeoutLength = time * 60 * 60 * 1000;
             await targetID.timeout(timeoutLength, reason);
+            log(interaction, 2, null, target, reason, `${time}${unit}`);
             await interaction.reply(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
             await console.log(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
         } else if (unit == 'd') {
             const timeoutLength = time * 60 * 60 * 24 * 1000;
             await targetID.timeout(timeoutLength, reason);
+            log(interaction, 2, null, target, reason, `${time}${unit}`);
             await interaction.reply(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
             await console.log(`${target.username} was timed out for ${time}${unit} for reason: **${reason}**.`);
         } else {

@@ -23,6 +23,8 @@ module.exports = {
 	async execute(interaction) {
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
         const guild = interaction.guild;
+        const { log } = require('./helper/log');
+
 
         const channels = guild.channels.cache.filter(channel => channel.type === ChannelType.GuildText);
         let channelList = [];
@@ -34,6 +36,7 @@ module.exports = {
                     SendMessages: false,
                 });
             });
+            log(interaction, 7, null, null, reason, null, null);
             await interaction.reply(`**Lockdown Started:** ${reason}`);
         } else if (interaction.options.getSubcommand() === 'end') {
             channels.forEach(async (channel) => {
@@ -42,6 +45,7 @@ module.exports = {
                     SendMessages: true,
                 });
             });
+            log(interaction, 8, null, null, null, null, null);
             await interaction.reply(`**Lockdown Ended**`);
         } else {
             return;
