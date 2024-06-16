@@ -16,11 +16,20 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 	async execute(interaction) {
+        const { log } = require('./helper/log');
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
 
+        const targetID = await interaction.guild.members.fetch(target.id);
+        if(targetID.permissions.has(PermissionFlagsBits.ModerateMembers) || targetID.permissions.has(PermissionFlagsBits.Administrator)) {
+            await interaction.reply(`You can't kick moderators!`)
+            return;
+        }
+
         await interaction.guild.members.kick(target);
         await interaction.reply(`${target.username} was kicked for reason: **${reason}**.`);
+        log(interaction, 4, null, target, reason, null, null);
+
         await console.log(`${target.username} was kicked for reason: **${reason}**.`);
 	},
 };

@@ -1,12 +1,17 @@
-const { Events } = require('discord.js');
+const { PermissionFlagsBits } = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');
 
 async function autoModeration(message, interaction) {
-    const prohibitedWords = LoadBadWords();
 
-    console.log(`Checking message: ${message}`);
+    const { log } = require('../../commands/mod/helper/log');
+
+    if(interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        return;
+    }
+
+    const prohibitedWords = LoadBadWords();
 
     const refinedRegexPattern = new RegExp(
         prohibitedWords.map(word => {
@@ -18,11 +23,25 @@ async function autoModeration(message, interaction) {
 
     const inviteLinkRegex = /(?:https?:\/\/)?(?:www\.|ptb\.|canary\.)?(?:discord\.gg|discord(?:app)?\.(?:com|gg)\/(?:invite|servers))\/[a-z0-9-_]+/gi;
 
-    if (refinedRegexPattern.test(message) || inviteLinkRegex.test(message)) {
-        const msgId = interaction.id
-        const chn = interaction.channel;
-        const msg = await chn.messages.fetch(msgId);
-        deleteMessage(msg);
+
+    const matches = message.match(refinedRegexPattern);
+
+    if (matches || inviteLinkRegex.test(message)) {
+        if (matches) {
+            const matchedWords = matches.map(match => {
+                return prohibitedWords.find(word => new RegExp(WordFilter(word), 'gi').test(match));
+            }).filter(Boolean);
+
+            const msgId = interaction.id;
+            const chn = interaction.channel;
+            const msg = await chn.messages.fetch(msgId);
+            punish(msg, interaction, matchedWords);
+        } else {
+            const msgId = interaction.id;
+            const chn = interaction.channel;
+            const msg = await chn.messages.fetch(msgId);
+            punish(msg, interaction, matchedWords);
+        }
     }
 }
 
@@ -40,7 +59,7 @@ function LoadBadWords() {
 
 function WordFilter(word) {
     const substitutions = {
-        'a': '[aаáâäàãåā4@]',
+        'a': '[aаáâäàãåā49@]',
         'b': '[bв8]',
         'c': '[cсςćč]',
         'd': '[dԁđ]',
@@ -76,8 +95,28 @@ function WordFilter(word) {
     }).join('') + plurals;
 }
 
-async function deleteMessage(message) {
+async function punish(message, interaction, matchedWord) {
+
+    const dictionary = ['nigger', 'nigga', 'nigglet', 'nigr', 'nigg']
+    const { log } = require('../../commands/mod/helper/log');
+
+
     await message.delete()
+    await interaction.channel.send(`<@${interaction.author.id}> you cant be saying that !!`)
+    const targetID = await interaction.guild.members.fetch(interaction.author.id);
+    let isMatch = false;
+    for (let i = 0; i < matchedWord.length; i++){
+        isMatch = dictionary.includes(matchedWord[i]);
+        if(isMatch) break;
+    }
+    if (isMatch) {
+        targetID.timeout(43200000, 'N word');
+        log(interaction, 3, interaction.content, interaction.author, 'N word', `12h`, true);
+        await interaction.channel.send(`<@${interaction.author.id}> was timed out for **12h**: ***N word.***`);
+    } else {
+        log(interaction, 3, interaction.content, interaction.author, null, null, false);
+    }
+
 }
 
 // I have yet to figure out what this thing does

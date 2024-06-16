@@ -2,11 +2,8 @@ const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
-const { autoModeration } = require('./commands/mod/helper/autoModeration'); // DAMN!?
 const { version } = require('./package.json');
-
-const fs = require("fs");
-const path = require('node:path');
+const sqlite3 = require('sqlite3').verbose();
 
 // our handlers
 const { loadCommands } = require("./handler/slashCommands");
@@ -33,6 +30,34 @@ const player = new Player(client, {
 });
 audio(player);
 
+
+// holy hell we got SQL
+let db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Connected to the cat database.');
+});
+const tableName = 'cat';
+db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
+    if (err) {
+        console.error(err.message);
+    }
+    if (row) {
+        console.log(`Table ${tableName} exists.`)
+    } else {
+        console.log(`Creating table ${tableName}`)
+        db.run(`CREATE TABLE IF NOT EXISTS cat(
+            userid TEXT PRIMARY KEY,
+            count INTEGER,
+            date INTEGER
+        )`);
+    }
+})
+db.close();
+
+
+
 // startup embed
 icon = new AttachmentBuilder(`./images/ccp.png`);
 const embed = new EmbedBuilder()
@@ -47,7 +72,7 @@ client.on("ready", () => {
     //client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator 2024' }] });
     client.user.setActivity('Karma by Jojo Siwa', { type: ActivityType.Listening });
 
-    const channel = client.channels.cache.get('1231228286148018321');
+    const channel = client.channels.cache.get('1089546068565446676');
     if (channel) {
         channel.send({ embeds: [embed], files: [icon]  });
     } else {
@@ -63,17 +88,8 @@ player.events.on('playerStart', (queue, track) => {
 });
 
 // discord-player debug
-//player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
+//console.log(player.scanDeps());
+player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.id}] ${message}`));
 
 // He sees everything
-client.on('messageCreate', message => {
-    // Ignore messages from the bot
-    if (message.author.bot) return;
-
-    //console.log(`Message from ${message.author.tag}: ${message.content}`);
-
-    // Warm up the grill
-    //autoModeration(message);
-});
-
 client.login(token);

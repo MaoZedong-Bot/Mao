@@ -11,6 +11,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 	async execute(interaction) {
+        const { log } = require('./helper/log');
         const target = interaction.options.getString('userid');
 
         function isInteger(value) {
@@ -21,6 +22,7 @@ module.exports = {
             await interaction.guild.members.unban(target);
             await interaction.reply(`${target} was **unbanned**.`);
             await console.log(`${target} was unbanned.`);
+            log(interaction, 6, null, target, null, null, null);
         } else {
             await interaction.reply(`Provided value is not an integer or valid user ID`);
         }
