@@ -3,12 +3,12 @@ const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, Attac
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
 const { version } = require('./package.json');
-const sqlite3 = require('sqlite3').verbose();
 
 // our handlers
 const { loadCommands } = require("./handler/slashCommands");
 const { loadEvents } = require("./handler/events");
 const { deployCommands } = require("./handler/deployCommands");
+const { loadSql } = require("./handler/loadSql");
 
 const client = new Client({ intents: 46791 });
 client.commands = new Collection();
@@ -32,36 +32,14 @@ audio(player);
 
 
 // holy hell we got SQL
-let db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the cat database.');
-});
-const tableName = 'cat';
-db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
-    if (err) {
-        console.error(err.message);
-    }
-    if (row) {
-        console.log(`Table ${tableName} exists.`)
-    } else {
-        console.log(`Creating table ${tableName}`)
-        db.run(`CREATE TABLE IF NOT EXISTS cat(
-            userid TEXT PRIMARY KEY,
-            count INTEGER,
-            date INTEGER
-        )`);
-    }
-})
-db.close();
-
+// this shouldnt work
+loadSql();
 
 
 // startup embed
 icon = new AttachmentBuilder(`./images/ccp.png`);
 const embed = new EmbedBuilder()
-            .setTitle(`Welcome to Mao Zedong v${version}`)
+            .setTitle(`Mao Zedong v${version}`)
             .setColor('#ff0000')
             .setDescription('Glory to the CCP!')
             .setThumbnail(`attachment://ccp.png`)
