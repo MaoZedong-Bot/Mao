@@ -2,7 +2,7 @@
   <img src="https://github.com/MaoZedong-Bot/Mao/blob/main/images/maozedong.jpg?raw=true" alt="A portrait of Mao Zedong" style="width:200px;"/>
 </p>
 
-<p align="center">Deaths have benefits. They can fertilise the ground.</p>
+<p align="center"><i>Deaths have benefits. They can fertilise the ground.</i></p>
 
 <h1 style="text-align: center;">Mao Zedong Bot</h1>
 
