@@ -21,7 +21,7 @@ loadEvents(client);
 deployCommands(client);
 
 async function audio(player){
-    await player.extractors.loadDefault((ext) => ext == 'YouTubeExtractor');
+    await player.extractors.loadDefault((ext) => ext == 'YouTubeExtractor' || ext == 'AttachmentExtractor');
 }
 
 // Audio
@@ -33,7 +33,7 @@ audio(player);
 
 // holy hell we got SQL
 // this shouldnt work
-loadSql();
+//loadSql();
 
 
 // startup embed
@@ -56,6 +56,9 @@ client.on("ready", () => {
     } else {
         console.error('Could not find the specified channel.');
     }
+
+    const guildIds = client.guilds.cache.map(guild => guild.id);
+    channel.send(String(`Guilds: ${guildIds}`));
 
 });
 

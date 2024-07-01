@@ -1,7 +1,7 @@
 // Here be dragons
 const sqlite3 = require('sqlite3').verbose();
 
-function loadSql(){
+function loadSql(guildid){
 
     // This is for pissrole
     let db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
@@ -61,12 +61,12 @@ function loadSql(){
         }
     })
 
-    /*settings.run(`INSERT INTO settings (guildid, logs) VALUES ('1231228286148018318', 'mhq')`, function(err) {
+    settings.run(`INSERT INTO settings (guildid) VALUES (${guildid})`, function(err) {
         if (err) {
             console.error(`INSERT: ${err.message}`);
             }
             
-    });*/
+    });
 
 
     settings.close();

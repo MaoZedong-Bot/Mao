@@ -25,17 +25,10 @@ module.exports = {
                 }
             });
 
-            let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
-                if (err) {
-                    console.error(err.message);
-                }
-                console.log('Connected to the settings database. (MSG)');
-            });
-
             const currentUNIX = Math.floor(Date.now() / 1000);
 
             try {
-                /*await new Promise((resolve, reject) => {
+                await new Promise((resolve, reject) => {
                     db.serialize(() => {
                         // Check if the user exists
                         db.get(`SELECT count, date FROM cat WHERE userid = ?`, [interaction.author.id], (err, row) => {
@@ -104,37 +97,12 @@ module.exports = {
                             }
                         });
                     });
-                });*/
-
-                await new Promise((resolve, reject) => {
-                    settings.serialize(() => {
-                        // Check if the user exists
-                        settings.get(`SELECT logs FROM settings WHERE guildid = ${interaction.guild.id}`, (err, row) => {
-                            if (err) {
-                                console.error(`GET: ${err.message}`);
-                                interaction.channel.send(err.message);
-                                return reject(err);
-                            }
-                
-                            interaction.channel.send(row.logs);
-                            console.log(row)
-
-                            resolve();
-                        });
-                    });
                 });
 
             } catch (error) {
                 console.error('An error occurred:', error);
             } finally {
                 db.close((err) => {
-                    if (err) {
-                        console.error(err.message);
-                    } else {
-                        console.log('Closed the database connection.');
-                    }
-                });
-                settings.close((err) => {
                     if (err) {
                         console.error(err.message);
                     } else {

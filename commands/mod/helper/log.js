@@ -12,8 +12,11 @@ const { EmbedBuilder } = require("discord.js");
 // // 8: Lockdown End
 async function log(interaction, type, content, target, reason, duration, muted) {
 
+    return;
+
     const embed = new EmbedBuilder();
-    const { logsChannel } = require('../../../config.json')
+    // TODO: logs are fucking broken i need to SQL this
+    //const { logsChannel } = require('../../../config.json')
     const channel = await interaction.client.channels.fetch(logsChannel);
 
     switch(type) {
