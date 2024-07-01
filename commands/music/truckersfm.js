@@ -97,7 +97,6 @@ module.exports = {
         
         } else if (interaction.options.getSubcommand() === 'schedule') {
             var datetime = new Date();
-            console.log(datetime.toISOString().slice(0,10));
 
             const embed = new EmbedBuilder();
             embed
@@ -109,7 +108,6 @@ module.exports = {
             const tomorrowStart = new Date(new Date(new Date().setUTCHours(0, 0, 0, 0)).setDate(new Date().getDate() + 1));
 
             const todayUNIX = Date.parse(todayStart)/1000;
-            console.log(todayUNIX)
             const tomorrowUNIX = Date.parse(tomorrowStart)/1000;
 
             const scheduleUrl = `https://radiocloud.pro/api/public/v1/slots/${todayUNIX}/${tomorrowUNIX}`;
