@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/MaoZedong-Bot/Mao/blob/main/images/maozedong.jpg?raw=true" alt="A portrait of Mao Zedong"/>
+  <img src="https://github.com/MaoZedong-Bot/Mao/blob/main/images/maozedong.jpg?raw=true" alt="A portrait of Mao Zedong" style="width:200px;"/>
 </p>
 
 <p align="center">Deaths have benefits. They can fertilise the ground.</p>
