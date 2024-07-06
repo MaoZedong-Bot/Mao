@@ -12,11 +12,17 @@ function sqlWrite(guildid, setting, value) {
         console.log('Connected to the settings database.');
     });
 
-    settings.run(`INSERT INTO settings (guildid, ${setting}) VALUES ('${guildid}', 'mhq')`, function(err) {
-        if (err) {
-            console.error(`INSERT: ${err.message}`);
-            }
-            
-    });
+    const set = `UPDATE settings SET value = ? WHERE guildId = ? AND setting = ?`;
 
+    settings.run(set, [value, guildid, setting], function(err) {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log(`shit shit cum fuck ${this.changes}`);
+    })
+
+}
+
+module.exports = {
+    sqlWrite,
 }

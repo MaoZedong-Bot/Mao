@@ -4,3 +4,4 @@ package-lock.json
 config.json
 config_copy.json
 db/cat.db
+db/settings.db

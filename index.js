@@ -58,6 +58,11 @@ client.on("ready", () => {
     }
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
+
+    guildIds.forEach(guildid => {
+        loadSql(guildid);
+    })
+
     channel.send(String(`Guilds: ${guildIds}`));
 
 });

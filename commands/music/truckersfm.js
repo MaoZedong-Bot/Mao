@@ -26,21 +26,23 @@ module.exports = {
 
             let presenterName = presenterInfo.data.data.user.name;
             let presenterShow = presenterInfo.data.data.description;
-            let presenterImage = presenterInfo.data.data.image
+            let presenterImage = presenterInfo.data.data.image;
 
-            let presenterStartUNIX = presenterInfo.data.data.start;
-            let presenterEndUNIX = presenterInfo.data.data.end;
+            const presenterStartUNIX_local = presenterInfo.data.data.start;
+            const presenterEndUNIX_local = presenterInfo.data.data.end;
 
-            const presenterStartUNIX_parsed = new Date(presenterStartUNIX * 1000);
-            const presenterEndUNIX_parsed = new Date(presenterEndUNIX * 1000);
+            const presenterStartUNIX_parsed = new Date(presenterStartUNIX_local * 1000);
+            const presenterEndUNIX_parsed = new Date(presenterEndUNIX_local * 1000);
 
+            const presenterStartUNIX = new Date(presenterStartUNIX_parsed);
+            const presenterEndUNIX = new Date(presenterEndUNIX_parsed);
 
-            const startTime = presenterStartUNIX_parsed.toLocaleTimeString('de-DE', {
+            const startTime = presenterStartUNIX.toLocaleTimeString('de-DE', {
                 hour: '2-digit',
                 minute: '2-digit',
             });
 
-            const endTime = presenterEndUNIX_parsed.toLocaleTimeString('de-DE', {
+            const endTime = presenterEndUNIX.toLocaleTimeString('de-DE', {
                 hour: '2-digit',
                 minute: '2-digit',
             });
@@ -105,34 +107,36 @@ module.exports = {
                 .setFooter({ text: `Your Drive. Your Music. TruckersFM. | All times in UTC.`, iconURL: 'https://truckersfm.s3.fr-par.scw.cloud/static/tfm-2020.png' });
 
             const todayStart = new Date(new Date().setUTCHours(0, 0, 0, 0));
-            const tomorrowStart = new Date(new Date(new Date().setUTCHours(0, 0, 0, 0)).setDate(new Date().getDate() + 1));
 
             const todayUNIX = Date.parse(todayStart)/1000;
-            const tomorrowUNIX = Date.parse(tomorrowStart)/1000;
+            const offset = new Date().getTimezoneOffset() * 60;
+            const tomorrowUNIX = todayUNIX + 86400;
 
-            const scheduleUrl = `https://radiocloud.pro/api/public/v1/slots/${todayUNIX}/${tomorrowUNIX}`;
+            const scheduleUrl = `https://radiocloud.pro/api/public/v1/slots/${todayUNIX + offset}/${tomorrowUNIX + offset}`;
             const scheduleInfo = await axios.get(scheduleUrl);
             const scheduleData = scheduleInfo.data.data;
 
             for (let i = 0; i < scheduleData.length; i++) {
 
-                // parsing UNIX
-                let presenterStartUNIX = scheduleData[i].start;
-                let presenterEndUNIX = scheduleData[i].end;
+                const presenterStartUNIX_local = scheduleData[i].start + offset;
+                const presenterEndUNIX_local = scheduleData[i].end + offset;
 
-                const presenterStartUNIX_parsed = new Date(presenterStartUNIX * 1000);
-                const presenterEndUNIX_parsed = new Date(presenterEndUNIX * 1000);
+                const presenterStartUNIX_parsed = new Date(presenterStartUNIX_local * 1000);
+                const presenterEndUNIX_parsed = new Date(presenterEndUNIX_local * 1000);
 
-                if (presenterStartUNIX < todayUNIX) {
+                const presenterStartUNIX = new Date(presenterStartUNIX_parsed);
+                const presenterEndUNIX = new Date(presenterEndUNIX_parsed);
+
+                if (presenterStartUNIX_local + offset < todayUNIX) {
                     continue;
                 }
 
-                const startTime = presenterStartUNIX_parsed.toLocaleTimeString('de-DE', {
+                const startTime = presenterStartUNIX.toLocaleTimeString('de-DE', {
                     hour: '2-digit',
                     minute: '2-digit',
                 });
 
-                const endTime = presenterEndUNIX_parsed.toLocaleTimeString('de-DE', {
+                const endTime = presenterEndUNIX.toLocaleTimeString('de-DE', {
                     hour: '2-digit',
                     minute: '2-digit',
                 });
