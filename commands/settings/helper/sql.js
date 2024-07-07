@@ -20,9 +20,34 @@ function sqlWrite(guildid, setting, value) {
         }
         console.log(`shit shit cum fuck ${this.changes}`);
     })
+}
+
+async function sqlRead(guildid, setting) {
+
+    let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => { if (err) { console.error(err.message); }
+        console.log('Connected to the settings database.');
+    });
+
+    let rqValue;
+    await new Promise((resolve, reject) => {
+        const query = `SELECT value FROM settings WHERE guildid = ? AND setting = ?`;
+        settings.get(query, [guildid, setting], (err, row) => {
+            if (err) {
+                reject(`Error querying the settings database: ${err.message}`);
+            } else if (row) {
+                rqValue = row.value;
+                resolve(row.value);
+            } else {
+                resolve(null); // No matching record found
+            }
+        });
+    });
+
+    return rqValue;
 
 }
 
 module.exports = {
     sqlWrite,
+    sqlRead,
 }

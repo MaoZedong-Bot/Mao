@@ -18,7 +18,6 @@ const rest = new REST({ version: "10" }).setToken(token);
 // load commands
 loadCommands(client);
 loadEvents(client);
-deployCommands(client);
 
 async function audio(player){
     await player.extractors.loadDefault((ext) => ext == 'YouTubeExtractor' || ext == 'AttachmentExtractor');
@@ -58,6 +57,8 @@ client.on("ready", () => {
     }
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
+
+    deployCommands(client, guildIds);
 
     guildIds.forEach(guildid => {
         loadSql(guildid);
