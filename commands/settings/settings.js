@@ -40,6 +40,7 @@ module.exports = {
         const enabled = interaction.options.getBoolean('enabled') ?? 0;
         const id = interaction.options.getChannel('id') ?? 0;
         const role = interaction.options.getRole('role') ?? 0;
+        console.log(role.id)
 
         const { sqlWrite } = require('./helper/sql')
 

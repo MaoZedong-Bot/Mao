@@ -69,7 +69,7 @@ module.exports = {
 
         collector.on('collect', interaction => {
             if (!interaction.values.length) {
-                interaction.reply('fuck');
+                interaction.reply('something went VERY wrong please file an issue and contact either developer');
                 return;
             }
 

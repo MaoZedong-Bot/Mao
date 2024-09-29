@@ -2,6 +2,7 @@ const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
 const { token } = require('./config.json');
 const { Player } = require('discord-player');
+const { YoutubeiExtractor } = require('discord-player-youtubei')
 const { version } = require('./package.json');
 
 // our handlers
@@ -25,8 +26,12 @@ async function audio(player){
 
 // Audio
 const player = new Player(client, {
-    skipFFmpeg: false 
+    skipFFmpeg: true,
+    streamType: 'raw',
+    disableFilters: true,
+    disableResampler: true
 });
+player.extractors.register(YoutubeiExtractor, {})
 audio(player);
 
 
@@ -57,6 +62,7 @@ client.on("ready", () => {
     }
 
     const guildIds = client.guilds.cache.map(guild => guild.id);
+    console.log(guildIds)
 
     deployCommands(client, guildIds);
 
@@ -64,7 +70,7 @@ client.on("ready", () => {
         loadSql(guildid);
     })
 
-    channel.send(String(`Guilds: ${guildIds}`));
+    //channel.send(String(`Guilds: ${guildIds}`));
 
 });
 

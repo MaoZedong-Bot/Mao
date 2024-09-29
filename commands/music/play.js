@@ -2,11 +2,11 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { useMainPlayer } = require('discord-player');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('play')
-		.setDescription('Play a song (Search by name)')
+    data: new SlashCommandBuilder()
+        .setName('play')
+        .setDescription('Play a song (Search by name)')
         .addStringOption(option => option.setName('query').setDescription('Song name').setRequired(true)),
-	async execute(interaction) {
+    async execute(interaction) {
 
         const player = useMainPlayer();
         const channel = interaction.member.voice.channelId;
@@ -20,8 +20,10 @@ module.exports = {
         try {
             const { track } = await player.play(channel, query, {
                 nodeOptions: {
-                    // nodeOptions are the options for guild node (aka your queue in simple word)
-                    metadata: interaction // we can access this metadata object using queue.metadata later on
+                    metadata: interaction, // we can access this metadata object using queue.metadata later on
+                    streamType: 'raw',
+                    disableFilters: true,
+                    disableResampler: true
                 }
             });
             const embed = new EmbedBuilder();
@@ -38,5 +40,5 @@ module.exports = {
             return interaction.followUp(`Something went wrong: ${e}`);
         }
 
-	},
+    },
 };

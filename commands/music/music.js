@@ -45,7 +45,7 @@ module.exports = {
 
             
 		const reply = await interaction.reply({
-			content: `_ _`,
+			content: `\`\`\`\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n▮   Software Failure. Press left mouse button to continue.   ▮\n▮             Guru Meditation #00000069.08000420             ▮\n▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮\n\`\`\``,
             embeds: [embed],
 			components: [row],
 		});
@@ -53,6 +53,7 @@ module.exports = {
         const collector = reply.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 3_600_000 });
 
         const collectorFilter = i => i.user.id === interaction.user.id;
+        
 
 	},
 };

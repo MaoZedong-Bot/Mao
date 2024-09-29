@@ -1,9 +1,18 @@
 function buttonIdHandler(id, msg) {
+    const guildId = msg.guild.id;
 
     const { useMainPlayer, useQueue } = require('discord-player');
-    const { guildId } = require('../../config.json');
-    const queue = useQueue(guildId);
-    const currentTrack = queue.currentTrack;
+    const player = useMainPlayer();
+    //const queue = useQueue(guildId);
+    const queue = player.nodes.get(guildId);
+    if (!queue || !queue.currentTrack) {
+        return msg.edit("No track is currently playing.");
+    }
+    //const currentTrack = queue.currentTrack;
+    const currentTrack = queue.currentTrack.title; // Get the title of the current track
+    
+
+    
     
     switch(id) {
         case "playpause":
