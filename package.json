@@ -1,6 +1,6 @@
 {
   "name": "mao",
-  "version": "0.11.0 \"Jiējìn Sǐwáng\"",
+  "version": "0.11.1 \"Jiējìn Sǐwáng²\"",
   "description": "Mao Zedong bot",
   "main": "index.js",
   "scripts": {
@@ -41,6 +41,6 @@
     "sqlite3": "^5.1.7",
     "stream": "^0.0.3",
     "uuid": "^9.0.1",
-    "youtube-ext": "^1.1.25"
+    "ytdl-core": "^4.11.5"
   }
 }

@@ -1,0 +1,90 @@
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { useMainPlayer } = require('discord-player');
+
+// Maximum retry attempts for ECONNRESET
+const MAX_RETRIES = 5;
+
+// Retry logic function for handling ECONNRESET
+async function playWithRetry(player, channel, query, interaction, retries = 0) {
+    try {
+        // Attempt to play the track
+        const { track } = await player.play(channel, query, {
+            nodeOptions: {
+                skipFFmpeg: false,
+                metadata: interaction,
+                streamType: 'raw',
+                disableFilters: true,
+                disableResampler: true,
+                ytdlOptions: {
+                    // These options help bypass age restrictions
+                    filter: 'audioonly',   // Make sure only audio is streamed
+                    highWaterMark: 1 << 25, // Increase buffer size to help with larger files
+                    requestOptions: {
+                        // Add the 'cookie' field with your own YouTube session cookie if needed
+                        // headers: {
+                        //     Cookie: "your-youtube-cookie-here"
+                        // },
+                    }
+                }
+            }
+        });
+
+        // Return the track on successful play
+        return track;
+
+    } catch (error) {
+        if (error.code === 'ECONNRESET' && retries < MAX_RETRIES) {
+            const retryDelay = Math.pow(2, retries) * 1000; // Exponential backoff
+
+            console.error(`ECONNRESET error occurred. Retrying in ${retryDelay / 1000} seconds...`);
+
+            // Wait for the retry delay before attempting again
+            await new Promise(resolve => setTimeout(resolve, retryDelay));
+
+            // Retry the playback
+            return playWithRetry(player, channel, query, interaction, retries + 1);
+        } else {
+            throw error; // If not ECONNRESET or retries exhausted, throw the error
+        }
+    }
+}
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('play')
+        .setDescription('Play a song (Search by name)')
+        .addStringOption(option => option.setName('query').setDescription('Song name').setRequired(true)),
+
+    async execute(interaction) {
+        const player = useMainPlayer();
+        const channel = interaction.member.voice.channelId;
+
+        if (!channel) return interaction.reply('You are not connected to a voice channel!'); // Ensure user is in a voice channel
+        
+        const query = interaction.options.getString('query', true); // Get the song query
+        
+        // Defer the reply as this might take some time
+        await interaction.deferReply();
+        
+        let username = interaction.user.username;
+
+        try {
+            // Use playWithRetry function instead of directly calling player.play()
+            const track = await playWithRetry(player, channel, query, interaction);
+
+            // Create and send embed message upon successful playback
+            const embed = new EmbedBuilder()
+                .setTitle('Added to queue')
+                .setColor('#00FFFF')
+                .setThumbnail(track.thumbnail)
+                .setDescription(`**${track.title}**\nDuration: ${track.duration}`)
+                .setFooter({ text: `Requested by ${username}` });
+
+            return interaction.followUp({ embeds: [embed] });
+
+        } catch (e) {
+            // Return error message if something went wrong
+            return interaction.followUp(`Something went wrong: ${e.message || e}`);
+        }
+    },
+};

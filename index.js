@@ -1,10 +1,10 @@
 const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
-const { token } = require('./config.json');
 const { Player } = require('discord-player');
 const { YoutubeiExtractor } = require('discord-player-youtubei')
-const { version } = require('./package.json');
 
+const { token } = require('./config.json');
+const { version } = require('./package.json');
 // our handlers
 const { loadCommands } = require("./handler/slashCommands");
 const { loadEvents } = require("./handler/events");
@@ -26,7 +26,7 @@ async function audio(player){
 
 // Audio
 const player = new Player(client, {
-    skipFFmpeg: true,
+    skipFFmpeg: false,
     streamType: 'raw',
     disableFilters: true,
     disableResampler: true
