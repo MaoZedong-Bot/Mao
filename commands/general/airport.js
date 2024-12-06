@@ -37,37 +37,42 @@ module.exports = {
         const api = String('airport.php')
         const airportJson = await axios.get(`https://${url}/${api}?${code}=${target}`)
         const airport = airportJson.data
-        const country = String(airport.iso_country);
-        const icao = String(airport.ident);
-        const iata = String(airport.iata_code);
-        const wikipedia = airport.wikipedia_link;
-        const website = airport.home_link;
-        const keywords = airport.keywords;
+        if (airport === null) {
+            interaction.reply("Airport was not found or API is down");
+        } else {
 
-        const lower = country.toLowerCase();
-        emoji = `:flag_${lower}:`
-        
+            const country = String(airport.iso_country) ?? "na";
+            const icao = String(airport.ident);
+            const iata = String(airport.iata_code);
+            const wikipedia = airport.wikipedia_link;
+            const website = airport.home_link;
+            const keywords = airport.keywords;
 
-        const embed = new EmbedBuilder()
-            .setTitle(`${airport.name} (${icao}/${iata})`)
-            .setColor(0x0099FF);
-            embed.addFields(
-                { name: 'Location', value: `${airport.municipality}, ${airport.iso_country} ${emoji}`, inline: true },
-                { name: 'Continent', value: `${airport.continent}`, inline: true },
-                { name: 'Coordinates', value: `Lat: ${airport.latitude_deg}\n Lon: ${airport.longitude_deg}`, inline: true },
-                { name: 'Elevation', value: `${airport.elevation_ft} ft`, inline: true } )
-        if (wikipedia.length > 0) {
-            embed.addFields({ name: 'Wikipedia', value: `[Here](${wikipedia})`, inline: true });
+            const lower = country.toLowerCase();
+            emoji = `:flag_${lower}:`
+            
+
+            const embed = new EmbedBuilder()
+                .setTitle(`${airport.name} (${icao}/${iata})`)
+                .setColor(0x0099FF);
+                embed.addFields(
+                    { name: 'Location', value: `${airport.municipality}, ${airport.iso_country} ${emoji}`, inline: true },
+                    { name: 'Continent', value: `${airport.continent}`, inline: true },
+                    { name: 'Coordinates', value: `Lat: ${airport.latitude_deg}\n Lon: ${airport.longitude_deg}`, inline: true },
+                    { name: 'Elevation', value: `${airport.elevation_ft} ft`, inline: true } )
+            if (wikipedia.length > 0) {
+                embed.addFields({ name: 'Wikipedia', value: `[Here](${wikipedia})`, inline: true });
+            }
+            if (website.length > 0) {
+                embed.addFields({ name: 'Website', value: `[Here](${website})`, inline: true });
+            }
+            if (keywords.length > 0) {
+                embed.addFields({ name: 'Keywords', value: `${keywords}`})
+            }
+                embed.setTimestamp();
+                embed.setFooter({ text: `Airport ID: ${airport.id}` });
+            
+            interaction.reply({ embeds: [embed] });
         }
-        if (website.length > 0) {
-            embed.addFields({ name: 'Website', value: `[Here](${website})`, inline: true });
-        }
-        if (keywords.length > 0) {
-            embed.addFields({ name: 'Keywords', value: `${keywords}`})
-        }
-            embed.setTimestamp();
-            embed.setFooter({ text: `Airport ID: ${airport.id}` });
-        
-        interaction.reply({ embeds: [embed] });
     },
 };
