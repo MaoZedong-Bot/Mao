@@ -1,7 +1,9 @@
 const { REST } = require("@discordjs/rest");
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, ActivityType, AttachmentBuilder } = require("discord.js");
 const { Player } = require('discord-player');
-const { YoutubeiExtractor } = require('discord-player-youtubei')
+const { YoutubeiExtractor } = require('discord-player-youtubei');
+const axios = require('axios');
+const fs = require('node:fs');
 
 const { token } = require('./config.json');
 const { version } = require('./package.json');
@@ -34,39 +36,56 @@ const player = new Player(client, {
 player.extractors.register(YoutubeiExtractor, {})
 audio(player);
 
+// check for updates on startup
+async function checkForUpdates(){
+    const url = String('api.github.com');
+    const api = String('repos/MaoZedong-Bot/Mao/commits/main');
+    const commitJson = await axios.get(`https://${url}/${api}`);
+    const commitData = commitJson.data;
+    const commit = commitData.sha;
+    return commit.slice(0,7);;
+}
 
-// holy hell we got SQL
-// this shouldnt work
-//loadSql();
 
+async function setupEmbed() {
+    const remoteCommit = await checkForUpdates();
 
-// startup embed
-icon = new AttachmentBuilder(`./images/ccp.png`);
-const embed = new EmbedBuilder()
-            .setTitle(`Mao Zedong v${version}`)
-            .setColor('#ff0000')
-            .setDescription('Glory to the CCP!')
-            .setThumbnail(`attachment://ccp.png`)
-            .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
+    let localCommit = await fs.readFileSync('.git/refs/heads/main', 'utf8'); 
 
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-    //client.user.setPresence({ activities: [{ name: 'Brick Eating Simulator 2024' }] });
-    client.user.setActivity('Karma by Jojo Siwa', { type: ActivityType.Listening });
+    icon = new AttachmentBuilder(`./images/ccp.png`);
+    const embed = new EmbedBuilder()
+        .setTitle(`Mao Zedong v${version}`)
+        .setColor('#ff0000')
+        .setThumbnail(`attachment://ccp.png`)
+        .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
+
+    if (remoteCommit == localCommit.slice(0,7)) {
+        embed.setDescription(`Glory to the CCP!\n\n**Mao Zedong is up to date!**\nLocal Version: \`${localCommit.slice(0,7)}\`\nLatest Version: \`${remoteCommit}\``);
+    } else {
+        embed.setDescription(`Glory to the CCP!\n\n**Please Update to Latest Version**\nLocal Version: \`${localCommit.slice(0,7)}\`\nLatest Version: \`${remoteCommit}\``);
+    }
 
     const channel = client.channels.cache.get('1089546068565446676');
     if (channel) {
-        channel.send({ embeds: [embed], files: [icon]  });
+        channel.send({ embeds: [embed], files: [icon] });
     } else {
         console.error('Could not find the specified channel.');
     }
+}
 
-    const guildIds = client.guilds.cache.map(guild => guild.id);
+            
+client.on("ready", async () => {
+    console.log(`Logged in as ${client.user.tag}!`);
+    client.user.setActivity('Karma by Jojo Siwa', { type: ActivityType.Listening });
+
+    await setupEmbed();
+
+    const guildIds = await client.guilds.cache.map(guild => guild.id);
     console.log(guildIds)
 
-    deployCommands(client, guildIds);
+    await deployCommands(client, guildIds);
 
-    guildIds.forEach(guildid => {
+    await guildIds.forEach(guildid => {
         loadSql(guildid);
     })
 
