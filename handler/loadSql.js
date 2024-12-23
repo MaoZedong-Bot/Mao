@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-async function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
+function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
     return new Promise((resolve, reject) => {
         settings.serialize(() => {
 

@@ -85,7 +85,7 @@ module.exports = {
                     .setColor(0x00AE86)
                     .setThumbnail(specs.imageUrl);
 
-                const excludeFields = ['2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced'];
+                const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection'];
 
                 const description = formatDescription(specs, excludeFields);
                 embed.setDescription(description);
