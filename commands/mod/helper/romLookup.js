@@ -3,26 +3,29 @@ const cheerio = require('cheerio');
 
 async function getROMVersions(device, romType) {
     const deviceFormatted = device.replace(/ /g, '%20');
-
     const baseUrl = 'https://xmfirmwareupdater.com';
-    const miuiUrl = `${baseUrl}/miui/${deviceFormatted}`;
-    const hyperosUrl = `${baseUrl}/hyperos/${deviceFormatted}`;
-
-    let response;
-    let html;
+    const urls = [`${baseUrl}/hyperos/${deviceFormatted}`, `${baseUrl}/miui/${deviceFormatted}`];
     const romVersions = [];
 
-    try {
-        response = await axios.get(hyperosUrl);
-    } catch (hyperosError) {
-        if (hyperosError.response && hyperosError.response.status === 404) {
-            response = await axios.get(miuiUrl);
-        } else {
-            throw new Error('An error occurred while fetching ROM data.');
+    let response;
+    for (const url of urls) {
+        try {
+            response = await axios.get(url);
+            break; // Exit loop if request is successful
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                continue; // Try the next URL if 404 error
+            } else {
+                throw new Error(`An error occurred while fetching ROM data from ${url}: ${error.message}`);
+            }
         }
     }
 
-    html = response.data;
+    if (!response) {
+        throw new Error('Failed to fetch ROM data from all sources.');
+    }
+
+    const html = response.data;
     const $ = cheerio.load(html);
 
     $('#miui tbody tr').each((index, element) => {
