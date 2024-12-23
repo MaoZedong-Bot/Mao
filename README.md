@@ -8,8 +8,10 @@
 
 # Running the bot
 ## Prerequisites
-> [!IMPORTANT]  
+> [!WARNING]  
 > You must use the **LTS** version of Node.js, Stable will **NOT** work. Your computer will **spontaneously combust**.
+> 
+> If you try to install `better-sqlite3` on Node.js Stable, reverting any damages will be, uh, quite difficult.
 
 Due to our dependency on `better-sqlite3`, you need C++ build tools:
 * On Windows these will automatically be installed by node
