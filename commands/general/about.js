@@ -9,22 +9,17 @@ module.exports = {
         const uptime = formatUptime(interaction.client.uptime);
         const { rss, heapUsed, heapTotal } = process.memoryUsage();
         const cpuUsage = process.cpuUsage();
-        const totalCpuTime = (cpuUsage.user + cpuUsage.system) / 1000; // Convert microseconds to milliseconds
-        const elapsedTime = process.uptime() * 1000; // Convert seconds to milliseconds
+        const totalCpuTime = (cpuUsage.user + cpuUsage.system) / 1000;
+        const elapsedTime = process.uptime() * 1000;
         const cpuUsagePercentage = ((totalCpuTime / elapsedTime) * 100).toFixed(2);
 
         const aboutEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
             .setTitle('Mao Zedong')
             .setURL('https://github.com/MaoZedong-Bot/Mao')
-            .setDescription('experimental bot written in discord.js')
+            .setDescription('rest in peace Xi Her')
             .setThumbnail(interaction.client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }))
             .addFields(
-                {
-                    name: 'Creators',
-                    value: '<@907407245149634571>,<@1145477822123626596>',
-                    inline: true
-                },
                 {
                     name: 'Version',
                     value: `${version}`,
@@ -32,7 +27,8 @@ module.exports = {
                 },
                 {
                     name: 'Uptime',
-                    value: uptime
+                    value: uptime,
+                    inline: true
                 },
                 {
                     name: 'CPU Usage',

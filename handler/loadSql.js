@@ -4,7 +4,7 @@ function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
     return new Promise((resolve, reject) => {
         settings.serialize(() => {
 
-            settings.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=${tableName}`, (err, row) => {
+            settings.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
                 if (err) {
                     console.error(err.message);
                 }
@@ -83,18 +83,11 @@ async function loadSql(guildid) {
             }
         });
     });
-    db.close((err) => {
-        if (err) {
-            console.error(err.message);
-        } else {
-            console.log('Closed the cat database connection.');
-        }
-    });
 
     // Server configuration
     let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
-            console.error(err.message);
+            console.error(`error loading settings db: ${err.message}`);
         } else {
             console.log('Connected to the settings database.');
         }
@@ -103,7 +96,7 @@ async function loadSql(guildid) {
 
     
     const defaultSettings = [
-        { setting: 'logs', value: '1' },
+        { setting: 'logs', value: '0' },
         { setting: 'logschannel', value: '0' },
         { setting: 'pissrole', value: '0' },
         // Add more default settings as needed
@@ -111,11 +104,13 @@ async function loadSql(guildid) {
 
     const tableName2 = 'settings';
 
+    // TODO: fix this bs
     try {
         await checkAndInsertDefaults(settings, guildid, defaultSettings, tableName2);
     } catch (err) {
         console.error(`Error inserting default settings: ${err.message}`);
     }
+    //
 
 
     settings.close((err) => {
@@ -123,6 +118,14 @@ async function loadSql(guildid) {
             console.error(err.message);
         } else {
             console.log('Closed the settings database connection.');
+        }
+    });
+
+    db.close((err) => {
+        if (err) {
+            console.error(err.message);
+        } else {
+            console.log('Closed the cat database connection.');
         }
     });
 }

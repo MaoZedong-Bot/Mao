@@ -54,7 +54,7 @@ async function setupEmbed() {
 
     icon = new AttachmentBuilder(`./images/ccp.png`);
     const embed = new EmbedBuilder()
-        .setTitle(`Mao Zedong v${version}`)
+        .setTitle(`Mao Zedong \`${version}\``)
         .setColor('#ff0000')
         .setThumbnail(`attachment://ccp.png`)
         .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
@@ -81,7 +81,7 @@ client.on("ready", async () => {
     await setupEmbed();
 
     const guildIds = await client.guilds.cache.map(guild => guild.id);
-    console.log(guildIds)
+    console.log(`guilds: ${guildIds}`)
 
     await deployCommands(client, guildIds);
 

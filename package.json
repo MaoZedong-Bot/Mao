@@ -1,6 +1,6 @@
 {
   "name": "mao",
-  "version": "0.11.1 \"Jiējìn Sǐwáng²\"",
+  "version": "nightly",
   "description": "Mao Zedong bot",
   "main": "index.js",
   "scripts": {

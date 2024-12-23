@@ -48,7 +48,7 @@ module.exports = {
 
             // Add fields to embed
             for (const [key, versions] of Object.entries(groupedVersions)) {
-                const value = versions.map(({ romName, downloadLink }) => `${romName}\n[Download](${downloadLink})`).join('\n\n');
+                const value = versions.map(({ romName, downloadLink }) => `\`${romName}\`\n[Download](${downloadLink})`).join('\n\n');
                 embed.addFields({ name: key, value, inline: true });
             }
 
