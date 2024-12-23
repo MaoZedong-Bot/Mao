@@ -34,6 +34,16 @@ module.exports = {
                         .setDescription('Piss role')
                         .setRequired(true)
                 )
+        )
+        .addSubcommand(subcommand =>
+            subcommand 
+                .setName('threshold')
+                .setDescription('Threshold for piss role')
+                .addIntegerOption(option =>
+                    option.setName('amount')
+                        .setDescription('Threshold amount')
+                        .setRequired(true)
+                )
         ),
         //.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
@@ -59,6 +69,12 @@ module.exports = {
             case 'pissrole':
                 sqlWrite(interaction.guild.id, 'pissrole', role.id);
                 await interaction.reply(`Piss role is now ${role}`);
+                break;
+
+            case 'threshold':
+                const threshold = interaction.options.getInteger('amount');
+                sqlWrite(interaction.guild.id, 'threshold', threshold)
+                await interaction.reply(`Piss role threshold is now ${threshold}`);
                 break;
 
             default:

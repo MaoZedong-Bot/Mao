@@ -16,6 +16,7 @@ module.exports = {
         const message = interaction.content;
         const member = await interaction.guild.members.fetch(interaction.author.id);
         const roleId = await sqlRead(interaction.guild.id, 'pissrole');
+        const threshold = await sqlRead(interaction.guild.id, 'threshold');
         const role = await interaction.guild.roles.cache.get(roleId);
         
         autoModeration(message, interaction);
@@ -25,7 +26,7 @@ module.exports = {
             return;
         }
 
-        async function updateMessageCount(interaction, role) {
+        async function updateMessageCount(interaction, role, threshold) {
             const db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
                 if (err) {
                 console.error(err.message);
@@ -62,8 +63,7 @@ module.exports = {
                                     }
                                     resolve();
                                     });
-                                } else if (count >= 10 && currentUNIX - initialUNIX < 2592000) {
-                                    // Specific action if count exceeds 1000 within 30 days
+                                } else if (count >= threshold && currentUNIX - initialUNIX < 2592000) {
                                     //console.log(`User ${interaction.author.id} has sent over 1000 messages in the past 30 days!`);
                                     db.run(`UPDATE cat SET count = count + 1 WHERE userid = ?`, [interaction.author.id], function(err) {
                                         if (err) {
@@ -72,7 +72,6 @@ module.exports = {
                                         }
                                         //console.log(`Row(s) updated: ${this.changes}`);
                                     });
-                                    // Perform your specific action here (e.g., send a message, log the event, etc.)
                                     if (member.roles.cache.has(role.id)) {
                                         return;
                                     } else {
@@ -93,7 +92,7 @@ module.exports = {
                                 }
                             } else {
                                 // User does not exist, insert new record with the current timestamp
-                                db.run(`INSERT INTO cat (userid, count, date) VALUES (?, ?, ?)`, [interaction.author.id, 1, currentUNIX], function(err) {
+                                db.run(`INSERT INTO cat (guildid, userid, count, date) VALUES (?, ?, ?, ?)`, [interaction.guild.id, interaction.author.id, 1, currentUNIX], function(err) {
                                     if (err) {
                                     console.error(`INSERT: ${err.message}`);
                                     return reject(err);
@@ -120,7 +119,7 @@ module.exports = {
 
         }
 
-        updateMessageCount(interaction, role);
+        updateMessageCount(interaction, role, threshold);
 
     }
 

@@ -99,7 +99,7 @@ async function loadSql(guildid) {
         { setting: 'logs', value: '0' },
         { setting: 'logschannel', value: '0' },
         { setting: 'pissrole', value: '0' },
-        // Add more default settings as needed
+        { setting: 'threshold', value: '1000' },
     ];
 
     const tableName2 = 'settings';

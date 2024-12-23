@@ -18,7 +18,7 @@ function sqlWrite(guildid, setting, value) {
         if (err) {
             return console.error(err.message);
         }
-        console.log(`shit shit cum fuck ${this.changes}`);
+        console.log(`helper/sql.js: ${this.changes}`);
     })
 }
 
