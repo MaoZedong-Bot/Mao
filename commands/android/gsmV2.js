@@ -51,6 +51,8 @@ function formatDescription(specs, excludeFields) {
                 if (!excludeFields.includes(key)) {
                     if (key === 'Single' || key === 'Dual' || key === 'Triple' || key === 'Quad' || key === 'Penta') {
                         description += `${value}\n`;
+                    } else if (key === 'Technology') {
+                        description += `**Networks:** ${value}\n`;
                     } else {
                         description += `**${key}:** ${value}\n`;
                     }
