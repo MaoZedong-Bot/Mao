@@ -54,6 +54,11 @@ function formatDescription(specs, excludeFields) {
                         description += `${value}\n`;
                     } else if (key === 'Technology') {
                         description += `**Networks:** ${value}\n`;
+                    } else if (key === 'Dimensions' && value.includes('Folded:')) {
+                        const dimensions = value.split('Folded:');
+                        description += `**${key}:**\n${dimensions[0].trim()}\nFolded: ${dimensions[1].trim()}\n`;
+                    } else if (key === 'Dimensions') {
+                        description += `**${key}:** ${value}\n`;
                     } else {
                         description += `**${key}:** ${value}\n`;
                     }
@@ -61,6 +66,8 @@ function formatDescription(specs, excludeFields) {
             }
         }
     }
+
+    description = description.replace(/Cover camera:/g, '**Cover camera:**');
 
     return description;
 }
@@ -76,8 +83,7 @@ module.exports = {
     async execute(interaction) {
         const { parseResults } = require('./gsmSearch');
         const device = interaction.options.getString('device');
-        interaction.deferReply();
-
+        await interaction.deferReply(); // Defer the reply
 
         const dropdown = new StringSelectMenuBuilder()
             .setCustomId(interaction.id)
@@ -85,9 +91,15 @@ module.exports = {
 
         const results = await parseResults(device);
 
+        if (results.length === 0) {
+            await interaction.editReply({
+                content: 'No devices found. Please try a different search term.',
+                components: [],
+            });
+            return;
+        }
 
         for (let i = 0; i < results.length; i++) {
-
             if (i + 1 >= 26) {
                 break;
             }
@@ -96,13 +108,12 @@ module.exports = {
                     .setLabel(results[i].name)
                     .setValue(results[i].link)
             );
-
         }
 
         const row = new ActionRowBuilder()
-        .addComponents(dropdown);
+            .addComponents(dropdown);
 
-        if (results.length > 1){
+        if (results.length > 1) {
             const reply = await interaction.editReply({
                 content: `Choose a device`,
                 components: [row],
@@ -113,17 +124,16 @@ module.exports = {
                 filter: (i) => i.user.id === interaction.user.id && i.customId === interaction.id,
                 time: 30_000,
             });
-    
-            collector.on('collect', interaction => {
+
+            collector.on('collect', async interaction => {
                 if (!interaction.values.length) {
-                    interaction.reply('something went VERY wrong please file an issue and contact either developer');
+                    await interaction.reply('something went VERY wrong please file an issue and contact either developer');
                     return;
                 }
-    
+
                 handleCollectorInteraction(interaction);
-                
             });
-    
+
             async function handleCollectorInteraction(interaction) {
                 try {
                     console.log(`values: ${interaction.values}`);
@@ -133,36 +143,34 @@ module.exports = {
                             .setTitle(specs.name)
                             .setURL(interaction.values[0])
                             .setColor(0x00AE86)
-                            .setThumbnail(specs.imageUrl);
-    
-                        const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection'];
-    
+                            .setThumbnail(specs.imageUrl)
+                            .setFooter({ text: 'Powered by GSMArena' }); // Ensure footer is set
+
+                        const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection', 'Features'];
                         const description = formatDescription(specs, excludeFields);
                         embed.setDescription(description);
-    
+
                         await interaction.update({
                             components: [],
                             embeds: [embed],
                             content: '',
                         });
                     }
-    
                 } catch (error) {
                     console.log('Error fetching device info:', error);
                 }
             }
-
-        } else if (results.length = 1) {
+        } else if (results.length === 1) {
             const specs = await scrapePhoneSpecs(results[0].link);
             if (specs) {
                 const embed = new EmbedBuilder()
                     .setTitle(specs.name)
                     .setURL(results[0].link)
                     .setColor(0x00AE86)
-                    .setThumbnail(specs.imageUrl);
+                    .setThumbnail(specs.imageUrl)
+                    .setFooter({ text: 'Powered by GSMArena' }); // Ensure footer is set
 
-                const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection'];
-
+                const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection', 'Features'];
                 const description = formatDescription(specs, excludeFields);
                 embed.setDescription(description);
 
@@ -173,8 +181,5 @@ module.exports = {
                 });
             }
         }
-
-        
-        
     },
 };
