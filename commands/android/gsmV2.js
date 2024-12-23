@@ -49,7 +49,11 @@ function formatDescription(specs, excludeFields) {
             }
             for (const [key, value] of Object.entries(details)) {
                 if (!excludeFields.includes(key)) {
-                    description += `**${key}:** ${value}\n`;
+                    if (key === 'Single' || key === 'Dual' || key === 'Triple' || key === 'Quad' || key === 'Penta') {
+                        description += `${value}\n`;
+                    } else {
+                        description += `**${key}:** ${value}\n`;
+                    }
                 }
             }
         }
