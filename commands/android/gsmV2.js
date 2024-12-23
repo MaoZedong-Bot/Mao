@@ -76,7 +76,7 @@ module.exports = {
     async execute(interaction) {
         const { parseResults } = require('./gsmSearch');
         const device = interaction.options.getString('device');
-        await interaction.deferReply();
+        interaction.deferReply();
 
 
         const dropdown = new StringSelectMenuBuilder()
@@ -102,36 +102,62 @@ module.exports = {
         const row = new ActionRowBuilder()
         .addComponents(dropdown);
 
-        const reply = await interaction.editReply({
-            content: `Choose a device`,
-            components: [row],
-        });
+        if (results.length > 1){
+            const reply = await interaction.editReply({
+                content: `Choose a device`,
+                components: [row],
+            });
 
-        
-        const collector = reply.createMessageComponentCollector({
-            componentType: ComponentType.StringSelect,
-            filter: (i) => i.user.id === interaction.user.id && i.customId === interaction.id,
-            time: 30_000,
-        });
-
-        collector.on('collect', interaction => {
-            if (!interaction.values.length) {
-                interaction.reply('something went VERY wrong please file an issue and contact either developer');
-                return;
+            const collector = reply.createMessageComponentCollector({
+                componentType: ComponentType.StringSelect,
+                filter: (i) => i.user.id === interaction.user.id && i.customId === interaction.id,
+                time: 30_000,
+            });
+    
+            collector.on('collect', interaction => {
+                if (!interaction.values.length) {
+                    interaction.reply('something went VERY wrong please file an issue and contact either developer');
+                    return;
+                }
+    
+                handleCollectorInteraction(interaction);
+                
+            });
+    
+            async function handleCollectorInteraction(interaction) {
+                try {
+                    console.log(`values: ${interaction.values}`);
+                    const specs = await scrapePhoneSpecs(interaction.values[0]);
+                    if (specs) {
+                        const embed = new EmbedBuilder()
+                            .setTitle(specs.name)
+                            .setURL(interaction.values[0])
+                            .setColor(0x00AE86)
+                            .setThumbnail(specs.imageUrl);
+    
+                        const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection'];
+    
+                        const description = formatDescription(specs, excludeFields);
+                        embed.setDescription(description);
+    
+                        await interaction.update({
+                            components: [],
+                            embeds: [embed],
+                            content: '',
+                        });
+                    }
+    
+                } catch (error) {
+                    console.log('Error fetching device info:', error);
+                }
             }
 
-            handleCollectorInteraction(interaction);
-            
-        });
-
-        async function handleCollectorInteraction(interaction) {
-            try {
-                console.log(`values: ${interaction.values}`);
-                const specs = await scrapePhoneSpecs(interaction.values[0]);
+        } else if (results.length = 1) {
+            const specs = await scrapePhoneSpecs(results[0].link);
             if (specs) {
                 const embed = new EmbedBuilder()
                     .setTitle(specs.name)
-                    .setURL(interaction.values[0])
+                    .setURL(results[0].link)
                     .setColor(0x00AE86)
                     .setThumbnail(specs.imageUrl);
 
@@ -140,16 +166,15 @@ module.exports = {
                 const description = formatDescription(specs, excludeFields);
                 embed.setDescription(description);
 
-                await interaction.update({
+                await interaction.editReply({
                     components: [],
                     embeds: [embed],
                     content: '',
                 });
             }
-
-            } catch (error) {
-                console.log('Error fetching device info:', error);
-            }
         }
+
+        
+        
     },
 };
