@@ -18,12 +18,12 @@ module.exports = {
         const roleId = await sqlRead(interaction.guild.id, 'pissrole');
         const role = await interaction.guild.roles.cache.get(roleId);
         
+        autoModeration(message, interaction);
+
         if (roleId == 0) {
             // TODO: better way to handle this
             return;
         }
-
-        autoModeration(message, interaction);
 
         async function updateMessageCount(interaction, role) {
             const db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
