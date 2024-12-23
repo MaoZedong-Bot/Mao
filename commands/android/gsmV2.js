@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { CommandInteraction, EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, EmbedBuilder, AttachmentBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, InteractionCollector } = require('discord.js');
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -66,22 +67,71 @@ function formatDescription(specs, excludeFields) {
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('scrape')
-        .setDescription('Scrapes phone specs from GSMArena')
+        .setName('gsm')
+        .setDescription('Get device specifications from GSMArena')
         .addStringOption(option => 
-            option.setName('url')
-                .setDescription('The URL of the phone specs page on GSMArena')
+            option.setName('device')
+                .setDescription('Device name')
                 .setRequired(true)),
     async execute(interaction) {
-        const url = interaction.options.getString('url');
+        const { parseResults } = require('./gsmSearch');
+        const device = interaction.options.getString('device');
         await interaction.deferReply();
 
-        try {
-            const specs = await scrapePhoneSpecs(url);
+
+        const dropdown = new StringSelectMenuBuilder()
+            .setCustomId(interaction.id)
+            .setPlaceholder('Select a model');
+
+        const results = await parseResults(device);
+
+
+        for (let i = 0; i < results.length; i++) {
+
+            if (i + 1 >= 26) {
+                break;
+            }
+            dropdown.addOptions(
+                new StringSelectMenuOptionBuilder()
+                    .setLabel(results[i].name)
+                    .setValue(results[i].link)
+            );
+
+        }
+
+        const row = new ActionRowBuilder()
+        .addComponents(dropdown);
+
+        const reply = await interaction.editReply({
+            content: `Choose a device`,
+            components: [row],
+        });
+
+        
+        const collector = reply.createMessageComponentCollector({
+            componentType: ComponentType.StringSelect,
+            filter: (i) => i.user.id === interaction.user.id && i.customId === interaction.id,
+            time: 30_000,
+        });
+
+        collector.on('collect', interaction => {
+            if (!interaction.values.length) {
+                interaction.reply('something went VERY wrong please file an issue and contact either developer');
+                return;
+            }
+
+            handleCollectorInteraction(interaction);
+            
+        });
+
+        async function handleCollectorInteraction(interaction) {
+            try {
+                console.log(`values: ${interaction.values}`);
+                const specs = await scrapePhoneSpecs(interaction.values[0]);
             if (specs) {
                 const embed = new EmbedBuilder()
                     .setTitle(specs.name)
-                    .setURL(url)
+                    .setURL(interaction.values[0])
                     .setColor(0x00AE86)
                     .setThumbnail(specs.imageUrl);
 
@@ -90,13 +140,16 @@ module.exports = {
                 const description = formatDescription(specs, excludeFields);
                 embed.setDescription(description);
 
-                await interaction.editReply({ embeds: [embed] });
-            } else {
-                await interaction.editReply('Failed to scrape phone specs.');
+                await interaction.update({
+                    components: [],
+                    embeds: [embed],
+                    content: '',
+                });
             }
-        } catch (error) {
-            console.error('Error executing command:', error);
-            await interaction.editReply('An error occurred while scraping phone specs.');
+
+            } catch (error) {
+                console.log('Error fetching device info:', error);
+            }
         }
     },
 };
