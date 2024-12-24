@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const { getROMVersions } = require('../mod/helper/romLookup');
 
 module.exports = {
@@ -18,8 +18,15 @@ module.exports = {
                     { name: 'Recovery', value: 'recovery' },
                 )),
     async execute(interaction) {
+        
         try {
             const device = interaction.options.getString('device');
+
+            if (device.toLowerCase() === 'peces en el rio') {
+                pez = new AttachmentBuilder(`./images/peces.gif`);
+                return await interaction.reply({ files: [pez] });     
+            }
+
             const romType = interaction.options.getString('rom_type');
 
             const romVersions = await getROMVersions(device, romType);
