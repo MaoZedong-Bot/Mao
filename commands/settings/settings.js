@@ -44,7 +44,7 @@ module.exports = {
                         .setDescription('Threshold amount')
                         .setRequired(true)
                 )
-        ),
+        )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         const enabled = interaction.options.getBoolean('enabled') ?? 0;
