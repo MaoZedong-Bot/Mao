@@ -10,11 +10,13 @@
 ## Prerequisites
 > [!WARNING]  
 > You must use the **LTS** version of Node.js, Stable will **NOT** work. Your computer will **spontaneously combust**.
-> 
+>
 > If you try to install `better-sqlite3` on Node.js Stable, reverting any damages will be, uh, quite difficult.
+>
+> The bot was last tested on Node.js v22
 
 Due to our dependency on `better-sqlite3`, you need C++ build tools:
-* On Windows these will automatically be installed by node
+* On Windows these will automatically be installed by `npm`
 * On macOS, install [Xcode](https://developer.apple.com/xcode/)
 * On Linux, install GCC or any similar compiler
 * * For Ubuntu, `sudo apt install build-essential`
