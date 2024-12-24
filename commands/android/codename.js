@@ -55,7 +55,7 @@ module.exports = {
 
             uniqueDevices.forEach(item => {
                 if (counter < 25) {
-                    embed.addFields({ name: item.name, value: item.device });
+                    embed.addFields({ name: item.name, value: item.device, inline: true });
                     counter++;
                 }
             });
