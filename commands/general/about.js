@@ -22,7 +22,7 @@ module.exports = {
             .addFields(
                 {
                     name: 'Version',
-                    value: `${version}`,
+                    value: `\`${version}\``,
                     inline: true
                 },
                 {
