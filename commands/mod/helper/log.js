@@ -59,6 +59,12 @@ async function log(interaction, type, content, target, reason, duration, muted) 
     } catch (error) {
         logsChannel = 0;
         console.error(error);
+    } finally {
+        settings.close((err) => {
+            if (err) {
+                console.error(`Error closing the settings database: ${err.message}`);
+            }
+        });
     }
 
     if (logs == 0) {
