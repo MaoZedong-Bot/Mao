@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { description, site, botname } = require('../../config.json')
 
 module.exports = {
     const: { version } = require('../../package.json'),
@@ -15,9 +16,9 @@ module.exports = {
 
         const aboutEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
-            .setTitle('Mao Zedong')
-            .setURL('https://github.com/MaoZedong-Bot/Mao')
-            .setDescription('rest in peace Xi Her')
+            .setTitle(client.user.username)
+            .setURL("https://github.com/MaoZedong-Bot/Mao")
+            .setDescription("rest in peace Xi Her")
             .setThumbnail(interaction.client.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }))
             .addFields(
                 {
@@ -42,7 +43,7 @@ module.exports = {
                 },
                 {
                     name: 'Ping',
-                    value: `${interaction.client.ws.ping}`,
+                    value: `${interaction.client.ws.ping} ms`,
                     inline: true
                 }
             );
