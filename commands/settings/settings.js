@@ -45,7 +45,7 @@ module.exports = {
                         .setRequired(true)
                 )
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     async execute(interaction) {
         const enabled = interaction.options.getBoolean('enabled') ?? 0;
         const id = interaction.options.getChannel('id') ?? 0;
