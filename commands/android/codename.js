@@ -17,7 +17,9 @@ module.exports = {
         ),
     async execute(interaction) {
         const brand = interaction.options.getString('brand');
+        brand = brand.replace('@', '');
         const device = interaction.options.getString('device');
+        device = device.replace('@', '');
         const url = 'https://raw.githubusercontent.com/androidtrackers/certified-android-devices/master/by_brand.json';
         let counter = 0;
 

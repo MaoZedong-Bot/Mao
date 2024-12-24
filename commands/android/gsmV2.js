@@ -83,6 +83,7 @@ module.exports = {
     async execute(interaction) {
         const { parseResults } = require('./gsmSearch');
         const device = interaction.options.getString('device');
+        device = device.replace('@', '');
         await interaction.deferReply(); // Defer the reply
 
         const dropdown = new StringSelectMenuBuilder()
