@@ -3,7 +3,7 @@ const { getROMVersions } = require('../mod/helper/romLookup');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('miui')
+        .setName('latest')
         .setDescription('Get MIUI or HyperOS versions for a device using codename as input')
         .addStringOption(option =>
             option.setName('device')
