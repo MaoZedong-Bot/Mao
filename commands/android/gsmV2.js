@@ -146,7 +146,7 @@ module.exports = {
                             .setThumbnail(specs.imageUrl)
                             .setFooter({ text: 'Powered by GSMArena' }); // Ensure footer is set
 
-                        const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection', 'Features'];
+                        const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Features'];
                         const description = formatDescription(specs, excludeFields);
                         embed.setDescription(description);
 
@@ -170,7 +170,7 @@ module.exports = {
                     .setThumbnail(specs.imageUrl)
                     .setFooter({ text: 'Powered by GSMArena' }); // Ensure footer is set
 
-                const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Protection', 'Features'];
+                const excludeFields = ['GPRS', 'EDGE', '2G bands', '3G bands', '4G bands', '5G bands', 'Speed', 'CPU', 'GPU', 'NFC', 'Price', 'Video', 'Loudspeaker', '3.5mm jack', 'Radio', 'SAR', 'SAR EU', 'WLAN', 'Positioning', 'SIM', 'Card slot', 'Charging', 'Sensors', 'Announced', 'Features'];
                 const description = formatDescription(specs, excludeFields);
                 embed.setDescription(description);
 
