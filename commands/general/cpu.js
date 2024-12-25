@@ -17,15 +17,28 @@ function formatCpuDetails(specs, includeFields) {
                 }
                 description += cacheDetails.join(', ') + '\n\n';
             } else {
+
+                const forbiddenFields = ["Features", "SMP # CPUs", "ECC Memory", "Part#", "Production Status", 
+                    "Package", "Die Size", "Transistors", "I/O Process Size", "I/O Die Size", "Memory Bus"];
+
                 description += `**${category}**\n`;
                 let frequency = '';
                 let turboClock = '';
+                let cores = '';
+                let threads = ''
                 for (const [key, value] of Object.entries(details)) {
                     const formattedKey = key.replace(/^# /, '').replace(/:$/, '');
-                    if (formattedKey === 'Frequency') {
+
+                    if (forbiddenFields.includes(formattedKey)) {
+                        ;
+                    } else if (formattedKey === 'Frequency') {
                         frequency = value.replace(/:$/, '').replace(' GHz', '');
                     } else if (formattedKey === 'Turbo Clock') {
                         turboClock = value.replace(/:$/, '').replace('up to ', '').replace(' GHz', '');
+                    } else if (formattedKey === 'of Cores') {
+                        cores = value.replace(/:$/, '');
+                    } else if (formattedKey === 'of Threads') {
+                        threads = value.replace(/:$/, '');
                     } else {
                         description += `**${formattedKey}:** ${value.replace(/:$/, '')}\n`;
                     }
@@ -35,24 +48,14 @@ function formatCpuDetails(specs, includeFields) {
                 } else if (frequency) {
                     description += `**Frequency:** ${frequency} GHz\n`;
                 }
+                if (cores && threads) {
+                    description += `**Cores:** ${cores}C/${threads}T\n`;
+                }
                 description = description.replace('-N/A', '');
                 description += '\n';
             }
         }
     }
-
-    // Remove unwanted fields using regex
-    description = description.replace(/^\*\*Features:.*\n?/gm, '');
-    description = description.replace(/^\*\*SMP # CPUs:.*\n?/gm, '');
-    description = description.replace(/^\*\*ECC Memory:.*\n?/gm, '');
-    description = description.replace(/^\*\*Part#:.*\n?/gm, '');
-    description = description.replace(/^\*\*Production Status:.*\n?/gm, '');
-    description = description.replace(/^\*\*Package:.*\n?/gm, '');
-    description = description.replace(/^\*\*Die Size:.*\n?/gm, '');
-    description = description.replace(/^\*\*Transistors:.*\n?/gm, '');
-    description = description.replace(/^\*\*I\/O Process Size:.*\n?/gm, '');
-    description = description.replace(/^\*\*I\/O Die Size:.*\n?/gm, '');
-    description = description.replace(/^\*\*Memory Bus:.*\n?/gm, '');
 
     return description.trim();
 }
