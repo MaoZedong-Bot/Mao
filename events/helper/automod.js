@@ -1,4 +1,4 @@
-const { PermissionFlagsBits } = require('discord.js');
+const { PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');
@@ -8,6 +8,12 @@ async function autoModeration(message, interaction) {
     const { log } = require('../../commands/mod/helper/log');
 
     if(interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers) || interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        return;
+    }
+
+    const bot = interaction.guild.members.me;
+    
+    if (!bot.permissions.has(PermissionsBitField.Flags.MuteMembers)) {
         return;
     }
 
