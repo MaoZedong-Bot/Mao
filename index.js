@@ -65,7 +65,7 @@ async function setupEmbed() {
         embed.setDescription(`Glory to the CCP!\n\n**Please Update to Latest Version**\nLocal Version: \`${localCommit.slice(0,7)}\`\nLatest Version: \`${remoteCommit}\``);
     }
 
-    const channel = client.channels.cache.get('1089546068565446676');
+    const channel = client.channels.cache.get('342053200746250243');
     if (channel) {
         channel.send({ embeds: [embed], files: [icon] });
     } else {

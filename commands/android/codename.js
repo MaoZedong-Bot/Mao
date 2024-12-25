@@ -16,8 +16,10 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
-        const brand = interaction.options.getString('brand');
-        const device = interaction.options.getString('device');
+        const brand2 = interaction.options.getString('brand');
+        const brand = await brand2.replace(/@/g, '');
+        const device2 = interaction.options.getString('device');
+        const device = await device2.replace(/@/g, '');
         const url = 'https://raw.githubusercontent.com/androidtrackers/certified-android-devices/master/by_brand.json';
         let counter = 0;
 
@@ -55,7 +57,7 @@ module.exports = {
 
             uniqueDevices.forEach(item => {
                 if (counter < 25) {
-                    embed.addFields({ name: item.name, value: item.device });
+                    embed.addFields({ name: item.name, value: item.device, inline: true });
                     counter++;
                 }
             });
