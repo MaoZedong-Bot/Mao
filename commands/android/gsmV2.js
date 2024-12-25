@@ -83,8 +83,22 @@ module.exports = {
     async execute(interaction) {
         const { parseResults } = require('./gsmSearch');
         const device2 = interaction.options.getString('device');
-        device = device2.replace(/@/g, '');
-        await interaction.deferReply(); // Defer the reply
+        const device = await device2.replace(/@/g, '');
+
+        if (device.toLowerCase() === 'sabanero') {
+            return await interaction.reply('https://cdn.0000024.xyz/sabanero.mp4');
+        } else if (device.toLowerCase() === 'peces en el rio') {
+            ////
+            // PERO MIRA CÓMO BEBEN LOS PECES EN EL RÍO
+            // PERO MIRA CÓMO BEBEN POR VER AL DIOS NACIDO
+            // BEBEN Y BEBEN Y VUELVEN A BEBER
+            // LOS PECES EN EL RÍO POR VER A DIOS NACER
+            ////
+            return await interaction.reply('https://cdn.0000024.xyz/peces.mp4');
+        } else {
+            await interaction.deferReply(); // Defer the reply
+        }
+        
 
         const dropdown = new StringSelectMenuBuilder()
             .setCustomId(interaction.id)

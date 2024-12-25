@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -37,6 +37,12 @@ module.exports = {
         const unit = interaction.options.getString('unit');
         const time = interaction.options.getInteger('time');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
+
+            const bot = interaction.guild.members.me;
+    
+            if (!bot.permissions.has(PermissionsBitField.Flags.MuteMembers)) {
+                return interaction.reply(`I do not have the required permission: \`MuteMembers\``);
+            }
 
         if(targetID.permissions.has(PermissionFlagsBits.ModerateMembers) || targetID.permissions.has(PermissionFlagsBits.Administrator)) {
             await interaction.reply(`You can't timeout moderators!`)

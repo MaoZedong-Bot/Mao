@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,6 +19,11 @@ module.exports = {
         const { log } = require('./helper/log');
         const target = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') ?? 'No reason provided';
+        const bot = interaction.guild.members.me;
+
+        if (!bot.permissions.has(PermissionsBitField.Flags.KickMembers)) {
+            return interaction.reply(`I do not have the required permission: \`KickMembers\``);
+        }
 
         const targetID = await interaction.guild.members.fetch(target.id);
         if(targetID.permissions.has(PermissionFlagsBits.ModerateMembers) || targetID.permissions.has(PermissionFlagsBits.Administrator)) {
