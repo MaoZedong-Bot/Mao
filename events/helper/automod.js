@@ -17,7 +17,7 @@ async function autoModeration(message, interaction) {
         return;
     }
 
-    const prohibitedWords = LoadBadWords();
+    const prohibitedWords = loadBadWords();
 
     const refinedRegexPattern = new RegExp(
         prohibitedWords.map(word => {
@@ -35,7 +35,7 @@ async function autoModeration(message, interaction) {
     if (matches || inviteLinkRegex.test(message)) {
         if (matches) {
             const matchedWords = matches.map(match => {
-                return prohibitedWords.find(word => new RegExp(WordFilter(word), 'gi').test(match));
+                return prohibitedWords.find(word => new RegExp(wordFilter(word), 'gi').test(match));
             }).filter(Boolean);
 
             const msgId = interaction.id;
@@ -51,7 +51,7 @@ async function autoModeration(message, interaction) {
     }
 }
 
-function LoadBadWords() {
+function loadBadWords() {
     const filePath = path.resolve(__dirname, 'badwords.json');
     try {
         const data = fs.readFileSync(filePath, 'utf8');
@@ -63,7 +63,7 @@ function LoadBadWords() {
     }
 }
 
-function WordFilter(word) {
+function wordFilter(word) {
     const substitutions = {
         'a': '[aаáâäàãåā49@]',
         'b': '[bв8]',
