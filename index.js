@@ -76,7 +76,7 @@ async function setupEmbed() {
             
 client.on("ready", async () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity('Karma by Jojo Siwa', { type: ActivityType.Listening });
+    client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching });
 
     await setupEmbed();
 
