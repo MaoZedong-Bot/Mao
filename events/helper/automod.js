@@ -21,7 +21,7 @@ async function autoModeration(message, interaction) {
 
     const refinedRegexPattern = new RegExp(
         prohibitedWords.map(word => {
-            const wordPattern = WordFilter(word);
+            const wordPattern = wordFilter(word);
             return `(?<!\\w)${wordPattern}(?!\\w)`;
         }).join('|'),
         'gi'
