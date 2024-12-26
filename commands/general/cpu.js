@@ -19,7 +19,8 @@ function formatCpuDetails(specs, includeFields) {
             } else {
 
                 const forbiddenFields = ["Features", "SMP # CPUs", "ECC Memory", "Part#", "Production Status", 
-                    "Package", "Die Size", "Transistors", "I/O Process Size", "I/O Die Size", "Memory Bus"];
+                    "Package", "Die Size", "Transistors", "I/O Process Size", "I/O Die Size", "Memory Bus", "PPT" , 
+                    "Bundled Cooler", "PL2 Tau Limit", "Multiplier", "PL2", "PL1", "Base Clock"];
 
                 description += `**${category}**\n`;
                 let frequency = '';
