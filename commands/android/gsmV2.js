@@ -83,7 +83,8 @@ module.exports = {
     async execute(interaction) {
         const { parseResults } = require('./gsmSearch');
         const device2 = interaction.options.getString('device');
-        const device = await device2.replace(/@/g, '');
+        const device = await device2.replace(/[&\/\\#,()@$~%.'":*?<>{}`]/g, '');
+        console.log(device)
 
         if (device.toLowerCase() === 'sabanero') {
             return await interaction.reply('https://cdn.0000024.xyz/sabanero.mp4');

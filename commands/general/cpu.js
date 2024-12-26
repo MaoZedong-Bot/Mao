@@ -70,7 +70,8 @@ module.exports = {
                 .setDescription('The CPU to search for')
                 .setRequired(true)),
     async execute(interaction) {
-        const query = interaction.options.getString('query');
+        const query2 = interaction.options.getString('query');
+        const query = query2.replace(/[&\/\\#,()@$~%.'":*?<>{}`]/g, '');
         await interaction.deferReply();
 
         const results = await scrapeCpuList(query);
