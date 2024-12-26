@@ -52,16 +52,27 @@ module.exports = {
 
             let counter = 0;
             let lastName = "what";
+            let split = [];
 
             devices.forEach(result => {
+                split = result.name.split(" ");
                 if (counter <= 24) {
                     if (lastName !== result.name) {
 
-                        embed.addFields({
-                            name: `${result.brand} ${result.name}`,
-                            value: `\`${result.device}\``, 
-                            inline: true 
-                        });
+                        if (result.brand.toLowerCase() === split[0].toLowerCase()){
+                            embed.addFields({
+                                name: `${result.name}`,
+                                value: `\`${result.device}\``, 
+                                inline: true 
+                            });
+                        } else {
+                            embed.addFields({
+                                name: `${result.brand} ${result.name}`,
+                                value: `\`${result.device}\``, 
+                                inline: true 
+                            });
+                        }
+                        
 
                     }
                 }
