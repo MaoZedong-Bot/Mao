@@ -51,15 +51,21 @@ module.exports = {
                 .setColor('#2eb237');
 
             let counter = 0;
+            let lastName = "what";
 
             devices.forEach(result => {
                 if (counter <= 24) {
-                    embed.addFields({
-                        name: `${result.brand} ${result.name}`,
-                        value: `\`${result.device}\``, 
-                        inline: true 
-                    });
+                    if (lastName !== result.name) {
+
+                        embed.addFields({
+                            name: `${result.brand} ${result.name}`,
+                            value: `\`${result.device}\``, 
+                            inline: true 
+                        });
+
+                    }
                 }
+                lastName = result.name;
                 counter++
             });
 
