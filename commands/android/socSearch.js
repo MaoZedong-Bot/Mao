@@ -19,7 +19,6 @@ async function scrapeSocList(query) {
 
 
     const html = response.data;
-    //console.log(html)
     const $ = cheerio.load(html);
 
     const results = [];
