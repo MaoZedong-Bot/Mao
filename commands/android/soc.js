@@ -1,61 +1,20 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ComponentType, EmbedBuilder } = require('discord.js');
 
-function formatSoCDetails(specs, includeFields) {
+async function formatSoCDetails(specs, includeFields) {
     let description = '';
+    let forbiddenFields = ['Function', 'Width of Machine Word', 'Number of processor core(s)', 
+        'Data Bus Width', 'Semiconductor Technology', 'Special Features››', 'Data Integrity', 'Added',
+        'GPU Clock', 'Supported Cellular Data Links', 'Max. Data Rate', 'Number of data bus channels'
+    ]
+    let val;
 
-    for (const [label, value] of Object.entries(specs)) {
-            if (label === 'Cache') {
-                description += `**${label}**\n`;
-                const cachevalue = [];
-                for (const [key, value] of Object.entries(value)) {
-                    const formattedKey = key.replace(/^# /, '').replace(/:$/, '');
-                    const formattedValue = value.replace(/ \(shared\)/, '');
-                    cachevalue.push(`**${formattedKey}:** ${formattedValue}`);
-                }
-                description += cachevalue.join(', ') + '\n\n';
-            } else {
+    await specs.forEach(spec => {
+        val = spec.value.toString();
+        if (!forbiddenFields.includes(spec.label)) description += `**${spec.label}:** ${val.replace(/\n/g, '')}\n`;
+    })
 
-                const forbiddenFields = ["Features", "SMP # CPUs", "ECC Memory", "Part#", "Production Status", 
-                    "Package", "Die Size", "Transistors", "I/O Process Size", "I/O Die Size", "Memory Bus", "PPT" , 
-                    "Bundled Cooler", "PL2 Tau Limit", "Multiplier", "PL2", "PL1", "Base Clock"];
-
-                description += `**${label}**\n`;
-                let frequency = '';
-                let turboClock = '';
-                let cores = '';
-                let threads = ''
-                for (const [key, value] of Object.entries(value)) {
-                    const formattedKey = key.replace(/^# /, '').replace(/:$/, '');
-
-                    if (forbiddenFields.includes(formattedKey)) {
-                        ;
-                    } else if (formattedKey === 'Frequency') {
-                        frequency = value.replace(/:$/, '').replace(' GHz', '');
-                    } else if (formattedKey === 'Turbo Clock') {
-                        turboClock = value.replace(/:$/, '').replace('up to ', '').replace(' GHz', '');
-                    } else if (formattedKey === 'of Cores') {
-                        cores = value.replace(/:$/, '');
-                    } else if (formattedKey === 'of Threads') {
-                        threads = value.replace(/:$/, '');
-                    } else {
-                        description += `**${formattedKey}:** ${value.replace(/:$/, '')}\n`;
-                    }
-                }
-                if (frequency && turboClock) {
-                    description += `**Frequency:** ${frequency}-${turboClock} GHz\n`;
-                } else if (frequency) {
-                    description += `**Frequency:** ${frequency} GHz\n`;
-                }
-                if (cores && threads) {
-                    description += `**Cores:** ${cores}C/${threads}T\n`;
-                }
-                description = description.replace('-N/A', '');
-                description += '\n';
-            }
-        }
-
-    return description.trim();
+    return description;
 }
 
 module.exports = {
@@ -67,7 +26,7 @@ module.exports = {
                 .setDescription('The SoC to search for')
                 .setRequired(true)),
     async execute(interaction) {
-        const { scrapeSocList, scrapeSoCDetails } = require('./socSearch');
+        const { scrapeSocList, scrapeSoCDetails, getSocImage } = require('./socSearch');
 
         const query = interaction.options.getString('query');
 
@@ -121,9 +80,13 @@ module.exports = {
                     .setTitle(selectedName)
                     .setURL(url)
                     .setColor(0x00AE86)
-                    //.setDescription('cum')
-                    .setDescription(formatSoCDetails(specs, []))
+                    .setDescription(await formatSoCDetails(specs))
                     .setFooter({ text: 'Powered by PhoneDB' });
+                
+                const img = await getSocImage(results[Number(selectedUrl)].link);
+                if (img) {
+                    await embed.setThumbnail(img);
+                }
 
                 await interaction.update({
                     components: [],

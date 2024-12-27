@@ -28,8 +28,6 @@ async function scrapeSocList(query) {
         const name = title.replace('  ', ' ');
         const href = $(element).attr('href');
         const link = "http://phonedb.net/" + href;
-        console.log(name)
-        console.log(link)
         results.push({ name, link });
     });
     return results;
@@ -55,11 +53,31 @@ async function scrapeSoCDetails(url) {
             specs.push({ label, value });
         }
     });
-    console.log(specs)
     return specs;
+}
+
+async function getSocImage(url) {
+    const response = await axios.get(url, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
+        }
+    });
+    const html = response.data;
+    const $ = cheerio.load(html);
+
+    const imgElement = $('div.sidebar img');
+
+    if (imgElement) {
+        const src = imgElement.attr('src');
+        const img = `https://phonedb.net/${src}`;
+        return img;
+    } else {
+        return null;
+    }
 }
 
 module.exports = {
     scrapeSocList,
     scrapeSoCDetails,
+    getSocImage,
 }
