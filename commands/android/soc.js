@@ -59,7 +59,7 @@ module.exports = {
     async execute(interaction) {
         const { scrapeSocList, scrapeSoCDetails, getSocImage } = require('./socSearch');
 
-        interaction.deferReply();
+        await interaction.deferReply();
 
         const query = interaction.options.getString('query');
 
