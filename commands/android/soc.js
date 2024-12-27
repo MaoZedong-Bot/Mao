@@ -5,7 +5,8 @@ function formatSoCDetails(specs) {
     let description = '';
     let forbiddenFields = ['Function', 'Width of Machine Word', 'Number of processor core(s)', 
         'Data Bus Width', 'Semiconductor Technology', 'Special Features››', 'Data Integrity', 'Added',
-        'GPU Clock', 'Supported Cellular Data Links', 'Max. Data Rate', 'Number of data bus channels'
+        'GPU Clock', 'Supported Cellular Data Links', 'Max. Data Rate', 'Number of data bus channels',
+        'Special Features'
     ]
     let val;
     let lbl;
