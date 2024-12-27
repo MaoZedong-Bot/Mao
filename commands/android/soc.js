@@ -66,7 +66,7 @@ module.exports = {
         const results = await scrapeSocList(query);
 
         if (results.length === 0) {
-            await interaction.reply('No results found.');
+            await interaction.editReply('No results found.');
             return;
         } else if (results.length === 1) {
             const url = results[0].link;
