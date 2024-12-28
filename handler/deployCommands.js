@@ -4,6 +4,7 @@ function deployCommands(client, guilds)
     const { clientId, token } = require('../config.json');
     const fs = require('node:fs');
     const path = require('node:path');
+    const logger = require("./logger");
 
     const commands = [];
     // Grab all the command folders from the commands directory you created earlier
@@ -21,7 +22,7 @@ function deployCommands(client, guilds)
             if ('data' in command && 'execute' in command) {
                 commands.push(command.data.toJSON());
             } else {
-                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                logger.warning(`The command at ${filePath} is missing a required "data" or "execute" property.`);
             }
         }
     }
@@ -34,7 +35,7 @@ function deployCommands(client, guilds)
     // and deploy your commands!
     (async () => {
         try {
-            console.log(`Started refreshing ${commands.length} application (/) commands.`);
+            logger.info(`Started refreshing ${commands.length} application (/) commands.`);
 
             // The put method is used to fully refresh all commands in the guild with the current set
             guilds.forEach(guildid => {
@@ -46,10 +47,10 @@ function deployCommands(client, guilds)
         
 
 
-            console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+            logger.info(`Successfully reloaded ${data.length} application (/) commands.`);
         } catch (error) {
             // And of course, make sure you catch and log any errors!
-            console.error(error);
+            logger.error(error);
         }
     })();
 }

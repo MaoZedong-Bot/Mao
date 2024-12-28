@@ -1,17 +1,20 @@
 const sqlite3 = require('sqlite3').verbose();
 
 function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
+
+    const logger = require("./logger");
+
     return new Promise((resolve, reject) => {
         settings.serialize(() => {
 
             settings.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
                 if (err) {
-                    console.error(err.message);
+                    logger.error(err.message, '[SQL]');
                 }
                 if (row) {
-                    console.log(`Table settings exists.`);
+                    logger.info(`Table settings exists.`, '[SQL]');
                 } else {
-                    console.log(`Creating table settings`);
+                    logger.info(`Creating table settings`, '[SQL]');
                     settings.run(`CREATE TABLE IF NOT EXISTS settings(
                         guildid TEXT,
                         setting TEXT,
@@ -27,10 +30,10 @@ function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
                     return reject(err);
                 }
                 if (row) {
-                    console.log(`Guild ${guildid} already exists.`);
+                    logger.info(`Guild ${guildid} already exists.`, '[SQL]');
                     resolve();
                 } else {
-                    console.log(`Guild ${guildid} does not exist. Adding with default settings.`);
+                    logger.info(`Guild ${guildid} does not exist. Adding with default settings.`, '[SQL]');
 
                     const insertStmt = settings.prepare(`INSERT INTO settings (guildid, setting, value) VALUES (?, ?, ?)`);
                     for (const { setting, value } of defaultSettings) {
@@ -54,12 +57,15 @@ function checkAndInsertDefaults(settings, guildid, defaultSettings, tableName) {
 
 
 async function loadSql(guildid) {
+
+    const logger = await require("./logger");
+
     // This is for pissrole
     let db = new sqlite3.Database('./db/cat.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
-            console.error(err.message);
+            logger.error(err.message, 'SQL');
         } else {
-            console.log('Connected to the cat database.');
+            logger.info('Connected to the cat database.', '[SQL]');
         }
     });
 
@@ -67,12 +73,12 @@ async function loadSql(guildid) {
     db.serialize(() => {
         db.get(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`, [tableName], (err, row) => {
             if (err) {
-                console.error(err.message);
+                logger.error(err.message, '[SQL]');
             }
             if (row) {
-                console.log(`Table ${tableName} exists.`);
+                logger.info(`Table ${tableName} exists.`, '[SQL]');
             } else {
-                console.log(`Creating table ${tableName}`);
+                logger.info(`Creating table ${tableName}`, '[SQL]');
                 db.run(`CREATE TABLE IF NOT EXISTS cat(
                     guildid TEXT,
                     userid TEXT,
@@ -87,9 +93,9 @@ async function loadSql(guildid) {
     // Server configuration
     let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
-            console.error(`error loading settings db: ${err.message}`);
+            logger.error(`error loading settings db: ${err.message}`, '[SQL]');
         } else {
-            console.log('Connected to the settings database.');
+            logger.info('Connected to the settings database.', '[SQL]');
         }
     });
 
@@ -108,24 +114,24 @@ async function loadSql(guildid) {
     try {
         await checkAndInsertDefaults(settings, guildid, defaultSettings, tableName2);
     } catch (err) {
-        console.error(`Error inserting default settings: ${err.message}`);
+        logger.error(`Error inserting default settings: ${err.message}`, '[SQL]');
     }
     //
 
 
     settings.close((err) => {
         if (err) {
-            console.error(err.message);
+            logger.error(err.message, '[SQL]');
         } else {
-            console.log('Closed the settings database connection.');
+            logger.info('Closed the settings database connection.', '[SQL]');
         }
     });
 
     db.close((err) => {
         if (err) {
-            console.error(err.message);
+            logger.error(err.message, '[SQL]');
         } else {
-            console.log('Closed the cat database connection.');
+            logger.info('Closed the cat database connection.', '[SQL]');
         }
     });
 }

@@ -22,6 +22,9 @@ const rest = new REST({ version: "10" }).setToken(token);
 loadCommands(client);
 loadEvents(client);
 
+// Logging
+const logger = require("./handler/logger")
+
 async function audio(player){
     await player.extractors.loadDefault((ext) => ext == 'YouTubeExtractor' || ext == 'AttachmentExtractor');
 }
@@ -65,23 +68,25 @@ async function setupEmbed() {
         embed.setDescription(`Glory to the CCP!\n\n**Please Update to Latest Version**\nLocal Version: \`${localCommit.slice(0,7)}\`\nLatest Version: \`${remoteCommit}\``);
     }
 
-    const channel = client.channels.cache.get('342053200746250243');
+    const channelId = '342053200746250243';
+
+    const channel = client.channels.cache.get(channelId);
     if (channel) {
         channel.send({ embeds: [embed], files: [icon] });
     } else {
-        console.error('Could not find the specified channel.');
+        logger.error(`Could not find the specified channel: ${channelId}`);
     }
 }
 
             
 client.on("ready", async () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+    logger.info(`Logged in as ${client.user.tag}!`);
     client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching });
 
     await setupEmbed();
 
     const guildIds = await client.guilds.cache.map(guild => guild.id);
-    console.log(`guilds: ${guildIds}`)
+    logger.info(`Connected to guilds: ${guildIds}`)
 
     await deployCommands(client, guildIds);
 

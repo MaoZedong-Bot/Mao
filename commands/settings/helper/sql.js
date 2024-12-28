@@ -8,8 +8,8 @@ const sqlite3 = require('sqlite3').verbose();
 
 
 function sqlWrite(guildid, setting, value) {
-    let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => { if (err) { console.error(err.message); }
-        console.log('Connected to the settings database.');
+    let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => { if (err) { logger.error(err.message, '[SQLWrite]'); }
+        //logger.info('Connected to the settings database.', '[SQLWrite]');
     });
 
     const set = `UPDATE settings SET value = ? WHERE guildId = ? AND setting = ?`;
@@ -18,14 +18,14 @@ function sqlWrite(guildid, setting, value) {
         if (err) {
             return console.error(err.message);
         }
-        console.log(`helper/sql.js: ${this.changes}`);
+        logger.info(`helper/sql.js: ${this.changes}`, '[SQLWrite]');
     })
 }
 
 async function sqlRead(guildid, setting) {
 
-    let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => { if (err) { console.error(err.message); }
-        console.log('Connected to the settings database.');
+    let settings = new sqlite3.Database('./db/settings.db', sqlite3.OPEN_CREATE | sqlite3.OPEN_READWRITE, (err) => { if (err) { logger.error(err.message, '[SQLRead]'); }
+        //logger.info('Connected to the settings database.', '[SQLRead]');
     });
 
     let rqValue;
