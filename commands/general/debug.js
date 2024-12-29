@@ -16,7 +16,7 @@ module.exports = {
                 .setDescription('Pull repository files and restart the bot'))
         .addSubcommand(subcommand =>
             subcommand
-                .setName('Log')
+                .setName('log') // i kept fucking up this line
                 .setDescription('Show last 2000-ish chars of errors'))
         .addSubcommand(subcommand =>
             subcommand
