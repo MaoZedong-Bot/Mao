@@ -52,7 +52,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === 'update') {
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply();
 
             const options = [
                 new StringSelectMenuOptionBuilder().setLabel('Cancel').setValue('cancel_1'),
@@ -110,8 +110,8 @@ module.exports = {
             return;
         }
 
-        if (subcommand === 'option2') {
-            await interaction.deferReply({ ephemeral: true });
+        if (subcommand === 'log') {
+            await interaction.deferReply();
 
             const logDir = path.resolve(__dirname, '../../logs');
             const logFiles = fs.readdirSync(logDir).filter(file => file.endsWith('.log'));
