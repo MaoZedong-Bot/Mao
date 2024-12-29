@@ -29,4 +29,4 @@ Due to our dependency on `better-sqlite3`, you need C++ build tools:
 
 ## Some general usage tips
 * On Windows pm2 will NOT survive a reboot, you have to restart the instance using `npx pm2 start mao`
-* On macOS/Linux you can configure automatic restarts by reading [This](https://pm2.keymetrics.io/docs/usage/startup/)
+* On macOS/Linux you can configure automatic restarts: [PM2 documentation](https://pm2.keymetrics.io/docs/usage/startup/)
