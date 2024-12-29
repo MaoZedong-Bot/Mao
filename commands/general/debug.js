@@ -28,8 +28,9 @@ module.exports = {
 
         if (selectedOption === 'restart_bot') {
             await interaction.reply({ content: 'Restarting bot...', ephemeral: true });
-                exec('pm2 restart 0');
-            }
+            exec('pm2 restart mao'); // how do we 
+            return;
+        }
 
         const embed = new EmbedBuilder()
             .setTitle('Special Command')

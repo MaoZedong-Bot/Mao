@@ -24,5 +24,5 @@ Due to our dependency on `better-sqlite3`, you need C++ build tools:
 ## Actually running it
 1. Run `npm i` to install packages 
 2. Rename `config.example.json` to `config.json` and set your own values
-3. Run `npx pm2 start index.js`
+3. Run `npx pm2 start ecosystem.config.js`
 4. Profit
