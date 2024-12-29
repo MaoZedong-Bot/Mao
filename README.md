@@ -26,3 +26,7 @@ Due to our dependency on `better-sqlite3`, you need C++ build tools:
 2. Rename `config.example.json` to `config.json` and set your own values
 3. Run `npx pm2 start ecosystem.config.js`
 4. Profit
+
+## Some general usage tips
+* On Windows pm2 will NOT survive a reboot, you have to restart the instance using `npx pm2 start mao`
+* On macOS/Linux you can configure automatic restarts by reading [This](https://pm2.keymetrics.io/docs/usage/startup/)
