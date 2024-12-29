@@ -28,5 +28,6 @@ Due to our dependency on `better-sqlite3`, you need C++ build tools:
 4. Profit
 
 ## Some general usage tips
-* On Windows pm2 will NOT survive a reboot, you have to restart the instance using `npx pm2 start mao`
-* On macOS/Linux you can configure automatic restarts: [PM2 documentation](https://pm2.keymetrics.io/docs/usage/startup/)
+* PM2 will NOT survive a reboot, you have to restart the instance using `npx pm2 start mao`
+* On macOS/Linux you can configure automatic startup of the bot: [PM2 documentation](https://pm2.keymetrics.io/docs/usage/startup/)
+* For Windows you're on your own with configuring automatic startup as there is no official way as of now
