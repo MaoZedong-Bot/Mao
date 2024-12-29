@@ -1,4 +1,4 @@
- 
+bang 
 <h1 style="text-align: center;">Mao Zedong Bot</h1>
 <p align="center">
   <img src="https://github.com/MaoZedong-Bot/Mao/blob/main/images/maozedong.jpg?raw=true" alt="A portrait of Mao Zedong" style="width:200px;"/>
