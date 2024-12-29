@@ -16,8 +16,8 @@ module.exports = {
                 .setDescription('Pull repository files and restart the bot'))
         .addSubcommand(subcommand =>
             subcommand
-                .setName('option2')
-                .setDescription('Show the latest crash log'))
+                .setName('Error Log')
+                .setDescription('Show last 2000-ish chars of errors'))
         .addSubcommand(subcommand =>
             subcommand
                 .setName('restart_bot')
