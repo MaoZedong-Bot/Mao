@@ -52,7 +52,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === 'update') {
-            await interaction.deferReply();
+            await interaction.deferReply({ ephemeral: true });
 
             const options = [
                 new StringSelectMenuOptionBuilder().setLabel('Cancel').setValue('cancel_1'),
@@ -78,7 +78,6 @@ module.exports = {
             const followUpMessage = await interaction.followUp({
                 content: 'Select an option to confirm the update and restart the bot.',
                 components: [row],
-                ephemeral: true
             });
 
             const filter = i => i.user.id === interaction.user.id;
@@ -111,19 +110,19 @@ module.exports = {
         }
 
         if (subcommand === 'log') {
-            await interaction.deferReply();
+            await interaction.deferReply({ ephemeral: true });
 
             const logDir = path.resolve(__dirname, '../../logs');
             const logFiles = fs.readdirSync(logDir).filter(file => file.endsWith('.log'));
 
             if (logFiles.length === 0) {
-                await interaction.followUp({ content: 'No crash logs found.', ephemeral: true });
+                await interaction.followUp({ content: 'No crash logs found.'});
                 return;
             }
 
             const errorLogs = logFiles.filter(file => file.includes('error'));
             if (errorLogs.length === 0) {
-                await interaction.followUp({ content: 'No error logs found.', ephemeral: true });
+                await interaction.followUp({ content: 'No error logs found.'});
                 return;
             }
 
@@ -135,7 +134,7 @@ module.exports = {
                 .setDescription(`\`\`\`${logContent.slice(-2000)}\`\`\``) // Show the last 2000 characters of the log
                 .setColor(0xFF0000);
 
-            await interaction.followUp({ embeds: [embed], ephemeral: true });
+            await interaction.followUp({ embeds: [embed]});
             return;
         }
 
