@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, ActivityType } = require('discord.js');
-const { exec } = require('child_process');
+const simpleGit = require('simple-git');
 const path = require('path');
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
         .setDescription('Debugger menu')
         .addSubcommand(subcommand =>
             subcommand
-                .setName('option1')
+                .setName('update')
                 .setDescription('Pull repository files and restart the bot'))
         .addSubcommand(subcommand =>
             subcommand
@@ -48,31 +48,24 @@ module.exports = {
 
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === 'option1') {
+        if (subcommand === 'update') {
             await interaction.deferReply({ ephemeral: true });
             const rootDir = path.resolve(__dirname, '../../');
-            exec('git pull', { cwd: rootDir }, (error, stdout, stderr) => {
-                if (error) {
-                    interaction.followUp({ content: `Error pulling repository files: ${error.message}`, ephemeral: true });
-                    return;
-                }
-                if (stdout.includes('Already up to date.')) {
-                    interaction.followUp({ content: 'Repository is already up to date.', ephemeral: true });
-                    return;
-                }
-                if (stderr.includes('From https://github.com/cubecatdoesthings/Mao') || stderr.includes('From https://github.com/MaoZedong-Bot/Mao')) {
-                    interaction.followUp({ content: `Repository updated successfully.\n\nStdout: ${stdout}`, ephemeral: true });
+            const git = simpleGit(rootDir);
+
+            try {
+                const pullResult = await git.pull();
+                if (pullResult.summary.changes === 0) {
+                    await interaction.followUp({ content: 'Repository is already up to date.', ephemeral: true });
+                } else {
+                    await interaction.followUp({ content: `Repository updated successfully.\n\n${JSON.stringify(pullResult, null, 2)}`, ephemeral: true });
 
                     // Restart the bot after successful pull
                     exec('npx pm2 restart mao');
-                    return;
                 }
-                if (stderr.trim()) {
-                    interaction.followUp({ content: `Stderr: ${stderr}`, ephemeral: true });
-                } else {
-                    interaction.followUp({ content: `Repository updated successfully.\n\nStdout: ${stdout}`, ephemeral: true });
-                }
-            });
+            } catch (error) {
+                await interaction.followUp({ content: `Error pulling repository files: ${error.message}`, ephemeral: true });
+            }
             return;
         }
 
