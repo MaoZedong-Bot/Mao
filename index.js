@@ -81,23 +81,7 @@ async function setupEmbed() {
             
 client.on("ready", async () => {
     logger.info(`Logged in as ${client.user.tag}!`);
-    // client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching }); // :heart: 
-
-    const updateStatus = () => {
-        const now = new Date();
-        const nextYear = new Date(Date.UTC(now.getUTCFullYear() + 1, 0, 1));
-        const diff = nextYear - now;
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-        const status = `New Year in: ${days}d ${hours}h ${minutes}m UTC`;
-        client.user.setActivity(status, { type: ActivityType.Watching });
-    };
-
-    updateStatus();
-    setInterval(updateStatus, 30000);
+    client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching });
 
     await setupEmbed();
 
