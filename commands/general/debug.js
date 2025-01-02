@@ -42,10 +42,9 @@ module.exports = {
                         ))),
     async execute(interaction) {
         const allowedUserIds = [`1145477822123626596`, `907407245149634571`];
-        const allowedRoleId = `221708385601454081`;
         const notifyUserIds = [`1145477822123626596`, `907407245149634571`]; // tell these people when the bot is updated/restarted
 
-        if (!allowedUserIds.includes(interaction.user.id) && !interaction.member.roles.cache.has(allowedRoleId)) {
+        if (!allowedUserIds.includes(interaction.user.id)){
             await interaction.reply({ content: `You do not have permission to use this command.`, ephemeral: true });
             return;
         }
