@@ -19,7 +19,7 @@ module.exports = {
         const threshold = await sqlRead(interaction.guild.id, 'threshold');
         const role = await interaction.guild.roles.cache.get(roleId);
         
-        autoModeration(message, interaction);
+        //autoModeration(message, interaction);
 
         if (roleId == 0) {
             // TODO: better way to handle this
