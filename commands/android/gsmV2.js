@@ -87,6 +87,10 @@ module.exports = {
 
         if (device.toLowerCase() === 'sabanero') {
             return await interaction.reply('https://cdn.0000024.xyz/sabanero.mp4');
+            // cant express how much i love slop
+        } else if (device.toLowerCase() === 'i love slop') {
+            const pez = new AttachmentBuilder('./images/slop.png');
+            return await interaction.reply({ files: [pez] });
         } else if (device.toLowerCase() === 'peces en el rio') {
             ////
             // PERO MIRA CÓMO BEBEN LOS PECES EN EL RÍO
@@ -98,7 +102,6 @@ module.exports = {
         } else {
             await interaction.deferReply(); // Defer the reply
         }
-        
 
         const dropdown = new StringSelectMenuBuilder()
             .setCustomId(interaction.id)
