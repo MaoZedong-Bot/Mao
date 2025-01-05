@@ -1,5 +1,5 @@
- 
-<h1 style="text-align: center;">Mao Zedong Bot</h1>
+
+<h1 style="text-align: center;">Mao Zedong</h1>
 <p align="center">
   <img src="https://github.com/MaoZedong-Bot/Mao/blob/main/images/maozedong.jpg?raw=true" alt="A portrait of Mao Zedong" style="width:200px;"/>
 </p>
@@ -8,7 +8,7 @@
 
 # Running the bot
 ## Prerequisites
-> [!WARNING]  
+> [!WARNING]
 > You must use the **LTS** version of Node.js, Stable will **NOT** work. Your computer will **spontaneously combust**.
 >
 > If you try to install `better-sqlite3` on Node.js Stable, reverting any damages will be, uh, quite difficult.
@@ -20,9 +20,9 @@ Due to our dependency on `better-sqlite3`, you need C++ build tools:
 * On macOS, install [Xcode](https://developer.apple.com/xcode/)
 * On Linux, install GCC or any similar compiler
 * * For Ubuntu, `sudo apt install build-essential`
- 
+
 ## Actually running it
-1. Run `npm i` to install packages 
+1. Run `npm i` to install packages
 2. Rename `config.example.json` to `config.json` and set your own values
 3. Run `npx pm2 start ecosystem.config.js`
 4. Profit
