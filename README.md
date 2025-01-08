@@ -5,6 +5,8 @@
 </p>
 
 <p align="center"><i>Deaths have benefits. They can fertilise the ground.</i></p>
+<a href="https://github.com/MaoZedong-Bot/Mao/stargazers">![GitHub Repo stars](https://img.shields.io/github/stars/MaoZedong-Bot/Mao?style=social)</a>
+<a href="https://github.com/MaoZedong-Bot/Mao/releases">![GitHub release (latest by date)](https://img.shields.io/github/v/release/MaoZedong-Bot/Mao)</a>
 
 # Running the bot
 ## Prerequisites
