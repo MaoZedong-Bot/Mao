@@ -3,6 +3,10 @@ Effective Date: 1/01/2024
 
 When we say “Mao,” “Mao Zedong,” “the Bot,” and “the Bot,” in these terms, we mean the Mao Zedong Discord Bot, it's code, and all it's derivatives.
 
+When we say “repository,” and “repo” in these terms, we mean the Git Repository of the Bot, be it on [GitHub](https://github.com/MaoZedong-Bot/Mao) or any derivative's ("fork").
+
+When we say “the code” in these terms, we mean the code for the Bot.
+
 By using the Bot or it's code published here, on GitHub, you agree to these Terms of Service ("Terms"). If you do not agree, please do not use the Bot.
 
 ## 1. Usage Requirements
@@ -21,13 +25,15 @@ Attempt to reverse-engineer or tamper with the Bot’s code or functionality.
 
 Modify the Bot, or use it or it's code without proper attribution to it's authors.
 
-## 2. Bot Functionality
+## 2. Bot Functionality and Future Changes
 
 2.1 The Bot offers all commands available when entering a "/" into the Discord chatbox, and other features specified in the README.md file.
 
 2.2 Features are provided "as is" and "as available." We make no guarantees about uptime, reliability, or feature availability.
 
 2.3 We reserve the right to modify, add, or remove features at any time without notice.
+
+2.4 We reserve the right to modify the code's license (defined in the [`LICENSE`](https://github.com/MaoZedong-Bot/Mao/blob/main/LICENSE) file in the repository) and revoke access to the code at any time without notice.
 
 ## 3. Limitation of Liability
 
@@ -41,7 +47,7 @@ User-generated content or actions performed using the Bot.
 
 ## 4. Termination
 
-4.1 We may terminate your access to the Bot if you violate these Terms or engage in behavior deemed harmful to the Bot, its users, or the Discord community.
+4.1 We may terminate your access to the Bot if you violate these Terms or engage in behavior deemed harmful to the Bot, it's users, or the Discord community.
 
 4.2 You may stop using the Bot at any time.
 
