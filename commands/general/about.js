@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const os = require('os'); // Import the os module
 
 module.exports = {
     const: { version } = require('../../package.json'),
@@ -7,6 +8,7 @@ module.exports = {
         .setDescription('All hail the CCP'),
     async execute(interaction) {
         const uptime = formatUptime(interaction.client.uptime);
+        const systemUptime = formatUptime(os.uptime() * 1000); // Convert seconds to milliseconds
         const { rss, heapUsed, heapTotal } = process.memoryUsage();
         const cpuUsage = process.cpuUsage();
         const totalCpuTime = (cpuUsage.user + cpuUsage.system) / 1000;
@@ -26,8 +28,13 @@ module.exports = {
                     inline: true
                 },
                 {
-                    name: 'Uptime',
+                    name: 'Bot Uptime',
                     value: uptime,
+                    inline: true
+                },
+                {
+                    name: 'System Uptime',
+                    value: systemUptime,
                     inline: true
                 },
                 {
