@@ -15,19 +15,14 @@ async execute(interaction) {
 
     try {
       await interaction.deferReply(); // hi defer the reply
-    const response = await ollama.chat({
+        const response = await ollama.chat({
         model,
         messages: [{ role: 'user', content: question }],
-        max_tokens: 100, // Limit the response to 100 tokens
-    });
+        });
 
-    const sanitizedResponse = response.message.content
-        .replace(/<.*?>/g, '')
-        .replace(/@/g, ''); 
-
-await interaction.editReply(sanitizedResponse);
+await interaction.editReply(response.message.content);
     } catch (err) {
-    console.error('Error interacting with Ollama:', err);
+        console.error('Error interacting with Ollama:', err);
     await interaction.editReply('An error occurred while querying the model.');
     }
 },
