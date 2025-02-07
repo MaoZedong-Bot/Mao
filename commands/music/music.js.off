@@ -13,7 +13,7 @@ module.exports = {
         const currentTrack = queue.currentTrack;
         const tracksArray = queue.tracks.toArray();
         if (!channel) return interaction.reply('You are not connected to a voice channel!'); // make sure we have a voice channel
-    
+
         const playPause = new ButtonBuilder()
             .setCustomId('playpause')
             .setLabel('⏯')
@@ -29,21 +29,21 @@ module.exports = {
             .setLabel('❌')
             .setStyle(ButtonStyle.Danger);
 
-            
+
 		const row = new ActionRowBuilder()
             .addComponents(playPause, skip, clear);
-        
+
         const embed = new EmbedBuilder();
 
         embed
             .setTitle(`${currentTrack}`)
             .setDescription(`Next track: ${tracksArray[0]}`)
             .setThumbnail(`${currentTrack.thumbnail}`)
-            .addFields({ name: `Duration:`, value: `${currentTrack.duration}`, inline: true }, 
+            .addFields({ name: `Duration:`, value: `${currentTrack.duration}`, inline: true },
                         { name: 'Songs left:', value: `${queue.getSize()}`, inline: true }
             );
 
-            
+
 		const reply = await interaction.reply({
 			content: ``,
             embeds: [embed],
@@ -53,7 +53,7 @@ module.exports = {
         const collector = reply.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 3_600_000 });
 
         const collectorFilter = i => i.user.id === interaction.user.id;
-        
+
 
 	},
 };

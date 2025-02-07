@@ -53,7 +53,7 @@ async function checkForUpdates(){
 async function setupEmbed() {
     const remoteCommit = await checkForUpdates();
 
-    let localCommit = await fs.readFileSync('.git/refs/heads/main', 'utf8'); 
+    let localCommit = await fs.readFileSync('.git/refs/heads/main', 'utf8');
 
     icon = new AttachmentBuilder(`./images/ccp.png`);
     const embed = new EmbedBuilder()
@@ -78,14 +78,16 @@ async function setupEmbed() {
     }
 }
 
-            
+
+let guildIds = [];
+
 client.on("ready", async () => {
     logger.info(`Logged in as ${client.user.tag}!`);
     client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching });
 
     await setupEmbed();
 
-    const guildIds = await client.guilds.cache.map(guild => guild.id);
+    guildIds = await client.guilds.cache.map(guild => guild.id);
     logger.info(`Connected to guilds: ${guildIds}`)
 
     await deployCommands(client, guildIds);
@@ -110,3 +112,5 @@ player.events.on('debug', (queue, message) => console.log(`[DEBUG ${queue.guild.
 
 // He sees everything
 client.login(token);
+
+module.exports = { guildIds, client };
