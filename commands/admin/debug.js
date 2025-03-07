@@ -110,6 +110,7 @@ module.exports = {
                             }
 
                             // Restart the bot after successful pull
+                            exec("npm i", { cwd: rootDir });
                             exec(`npx pm2 restart mao`);
                         }
                     } catch (error) {
