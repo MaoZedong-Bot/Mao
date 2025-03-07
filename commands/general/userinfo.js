@@ -1,6 +1,10 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
+const developerUserIds = [
+    '1145477822123626596', '907407245149634571'
+];
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('userinfo')
@@ -22,7 +26,11 @@ module.exports = {
                 { name: 'Bot', value: user.bot ? 'Yes' : 'No', inline: true },
                 { name: 'Created At', value: user.createdAt.toUTCString() },
             )
-            .setTimestamp()
+            .setTimestamp();
+
+        if (developerUserIds.includes(user.id)) {
+            embed.setFooter({ text: 'Why are you stalking the developers?' });
+        }
 
         interaction.reply({ embeds: [embed] });
     },
