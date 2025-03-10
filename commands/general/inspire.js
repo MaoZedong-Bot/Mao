@@ -16,7 +16,7 @@ async execute(interaction) {
         messages: [
         {
             role: 'user',
-            content: 'generate a single completely absurd inspirational quote',
+            content: 'generate a single completely absurd inspirational quote but make it about xiaomi',
         },
         ],
 });
