@@ -27,7 +27,7 @@ module.exports = {
                 messages: [
                     {
                         role: 'user',
-                        content: 'generate a single completely absurd inspirational quote but make it about xiaomi',
+                        content: 'generate a single crazy absurd inspirational quote',
                     },
                 ],
             });
