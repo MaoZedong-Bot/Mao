@@ -7,3 +7,4 @@ db/cat.db
 db/settings.db
 logs/*
 logs/*.log
+.idea
