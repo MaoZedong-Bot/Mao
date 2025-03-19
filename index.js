@@ -60,7 +60,7 @@ async function setupEmbed() {
         .setTitle(`Mao Zedong \`${version}\``)
         .setColor('#ff0000')
         .setThumbnail(`attachment://ccp.png`)
-        .setFooter({ text: `By UsrBinLuna and CubecatDoesThings` });
+        .setFooter({ text: `By UsrBinLuna and warp32767` });
 
     if (remoteCommit == localCommit.slice(0,7)) {
         embed.setDescription(`Glory to the CCP!\n\n**Mao Zedong is up to date!**\nLocal Version: \`${localCommit.slice(0,7)}\`\nLatest Version: \`${remoteCommit}\``);

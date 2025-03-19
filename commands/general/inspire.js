@@ -6,7 +6,7 @@ data: new SlashCommandBuilder()
     .setName('inspire')
     .setDescription('Generates a completely absurd inspirational quote'),
 async execute(interaction) {
-    const model = 'llama3.2:1b';
+    const model = 'tinyllama';
 
     try {
       await interaction.deferReply(); // defer the reply :blush:
@@ -16,7 +16,7 @@ async execute(interaction) {
         messages: [
         {
             role: 'user',
-            content: 'generate a single completely absurd inspirational quote about slop and the internet',
+            content: 'generate a single completely absurd made up inspirational quote',
         },
         ],
 });
