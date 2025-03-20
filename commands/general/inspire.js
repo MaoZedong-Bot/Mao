@@ -18,7 +18,7 @@ async execute(interaction) {
                     content: 'Provide a completely absurd and humorous inspirational quote that sounds like it could be genuine, but makes no sense upon reflection.',
                 },
             ],
-            keepa_live: -1,
+            keep_alive: -1,
         });
 
     await interaction.editReply(response.message.content);
