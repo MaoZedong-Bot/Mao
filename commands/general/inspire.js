@@ -16,7 +16,7 @@ async execute(interaction) {
         messages: [
         {
             role: 'user',
-            content: 'Make up the most brain-dead, ass-backwards inspirational quote about slop, the internet, or literally anything. It should sound deep but be dumber than a brick in a washing machine.',
+            content: 'generate a single completely absurd inspirational quote about slop and the internet.',
         },
         ],
 });
