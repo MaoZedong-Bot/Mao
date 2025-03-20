@@ -10,16 +10,16 @@ async execute(interaction) {
 
     try {
       await interaction.deferReply(); // defer the reply :blush:
-
-    const response = await ollama.chat({
-        model,
-        messages: [
-        {
-            role: 'user',
-            content: 'Make up the most brain-dead, ass-backwards inspirational quote about slop, the internet, or literally anything. It should sound deep but be dumber than a brick in a washing machine.',
-        },
-        ],
-});
+        const response = await ollama.chat({
+            model,
+            messages: [
+                {
+                    role: 'user',
+                    content: 'Provide a completely absurd and humorous inspirational quote that sounds like it could be genuine, but makes no sense upon reflection.',
+                },
+            ],
+            keep_alive: -1,
+        });
 
     await interaction.editReply(response.message.content);
     } catch (err) {

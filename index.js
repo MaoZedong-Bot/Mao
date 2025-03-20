@@ -83,7 +83,7 @@ let guildIds = [];
 
 client.on("ready", async () => {
     logger.info(`Logged in as ${client.user.tag}!`);
-    client.user.setActivity('Rest in peace Xi Her', { type: ActivityType.Watching });
+    client.user.setActivity('BAU BAUー！！', { type: ActivityType.Playing });
 
     await setupEmbed();
 
