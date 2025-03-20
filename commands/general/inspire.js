@@ -16,7 +16,7 @@ async execute(interaction) {
         messages: [
         {
             role: 'user',
-            content: 'Generate a completely brain-meltingly stupid inspirational quote about slop, the internet, or literally anything that makes zero sense. Make it sound deep, but upon closer inspection, it should have the intellectual value of a wet sock in a blender. I want it to feel like it was written by a sentient potato having an existential crisis.',
+            content: 'Make up the most brain-dead, ass-backwards inspirational quote about slop, the internet, or literally anything. It should sound deep but be dumber than a brick in a washing machine.',
         },
         ],
 });
