@@ -16,7 +16,7 @@ async execute(interaction) {
         messages: [
         {
             role: 'user',
-            content: 'generate a single completely absurd made up inspirational quote',
+            content: 'generate a single completely absurd made up inspirational quote  about slop and the internet or just anything stupid',
         },
         ],
 });
