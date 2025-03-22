@@ -47,7 +47,7 @@ module.exports = {
                 .filter((value, index, self) => self.findIndex(item => item.name === value.name && item.device === value.device) === index);
 
             if (uniqueDevices.length === 0) {
-                await interaction.reply({ content: `No codenames found for ${brand} ${device}`, ephemeral: false });
+                await interaction.reply({ content: `No codenames found!`, ephemeral: false });
                 return;
             }
 
