@@ -34,7 +34,7 @@ module.exports = {
 
             const brandJson = jsonData[lowerCaseKeys[`${brand}`.toLowerCase()]];
             if (!brandJson) {
-                await interaction.reply({ content: `No data found for brand: ${brand}`, ephemeral: false });
+                await interaction.reply({ content: `No data found for brand!`, ephemeral: false });
                 return;
             }
 
