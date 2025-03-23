@@ -5,11 +5,6 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('currency')
         .setDescription('Convert currencies')
-        .addIntegerOption(option =>
-            option.setName('amount')
-                .setDescription('Amount of currency')
-                .setRequired(false)
-        )
         .addStringOption(option =>
             option.setName('currency')
                 .setDescription('The origin currency')
@@ -73,6 +68,11 @@ module.exports = {
                     { name: 'USD - United States Dollar', value: "USD" },
                     { name: 'ZAR - South African Rand', value: "ZAR" },
                 )
+        )
+        .addIntegerOption(option =>
+            option.setName('amount')
+                .setDescription('Amount of currency')
+                .setRequired(false)
         ),
     async execute(interaction) {
         const amount = interaction.options.getInteger('amount') ?? 1;
