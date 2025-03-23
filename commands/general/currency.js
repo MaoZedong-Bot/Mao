@@ -4,7 +4,7 @@ const axios = require('axios');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('currency')
-        .setDescription('Find an Android device\'s codename')
+        .setDescription('Convert currencies')
         .addIntegerOption(option =>
             option.setName('amount')
                 .setDescription('Amount of currency')
