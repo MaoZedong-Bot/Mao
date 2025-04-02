@@ -34,7 +34,7 @@ module.exports = {
 
             const brandJson = jsonData[lowerCaseKeys[`${brand}`.toLowerCase()]];
             if (!brandJson) {
-                await interaction.reply({ content: `No data found for brand: ${brand}`, ephemeral: false });
+                await interaction.reply({ content: `No data found for brand!`, ephemeral: false });
                 return;
             }
 
@@ -47,7 +47,7 @@ module.exports = {
                 .filter((value, index, self) => self.findIndex(item => item.name === value.name && item.device === value.device) === index);
 
             if (uniqueDevices.length === 0) {
-                await interaction.reply({ content: `No codenames found for ${brand} ${device}`, ephemeral: false });
+                await interaction.reply({ content: `No codenames found!`, ephemeral: false });
                 return;
             }
 
