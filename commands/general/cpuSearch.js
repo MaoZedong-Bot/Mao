@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 async function scrapeCpuList(query) {
-    const url = `https://www.techpowerup.com/cpu-specs/?ajaxsrch=${encodeURIComponent(query)}`;
+    const url = `https://www.techpowerup.com/cpu-specs/?ajaxsrch=&q=${encodeURIComponent(query)}`;
     const response = await axios.get(url, {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
@@ -12,11 +12,15 @@ async function scrapeCpuList(query) {
     const $ = cheerio.load(html);
 
     const results = [];
-    $('table.processors tbody tr').each((index, element) => {
+
+    const desktopRows = $('#list .items-desktop table.items-desktop-table tbody tr');
+    desktopRows.each((i, element) => {
         const name = $(element).find('td:nth-child(1) a').text().trim();
-        const link = 'https://www.techpowerup.com' + $(element).find('td:nth-child(1) a').attr('href');
+        const href = $(element).find('td:nth-child(1) a').attr('href');
+        const link = href ? 'https://www.techpowerup.com' + href : '';
         results.push({ name, link });
     });
+
     return results;
 }
 
