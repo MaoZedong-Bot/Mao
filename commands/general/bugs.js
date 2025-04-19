@@ -8,7 +8,7 @@ module.exports = {
         try {
             await interaction.reply('IN YOUR PHONE📱📲📲📲BUGS ‼️🪲‼️🪲🪲🚫URGENTLY‼️DELETE🚫📲📲WHATSAP🚫IN YOUR PHONE📱📲📲📲BUGS ‼️🪲‼️🪲🪲🚫URGENTLY‼️DELETE🚫📲📲WHATSAP🚫');
         } catch (err) {
-            console.error('Error sending the custom message:', err);
+            console.error('Error sending the message:', err);
             await interaction.reply('An error occurred while trying to reply.');
         }
     },
