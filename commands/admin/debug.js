@@ -106,7 +106,7 @@ module.exports = {
                             // Notify specified users
                             for (const userId of notifyUserIds) {
                                 const user = await interaction.client.users.fetch(userId);
-                                await user.send(`@silent ${formatTimestamp()} The bot has been updated and will restart shortly.`);
+                                await user.send(`${formatTimestamp()} The bot has been updated and will restart shortly.`);
                             }
 
                             // Restart the bot after successful pull
@@ -154,12 +154,12 @@ module.exports = {
         }
 
         if (subcommand === `restart_bot`) {
-            await interaction.reply({ content: `Restarting bot...`, ephemeral: false });
+            await interaction.reply({ content: `Restarting bot...`, ephemeral: true });
 
             // Notify specified users
             for (const userId of notifyUserIds) {
                 const user = await interaction.client.users.fetch(userId);
-                await user.send(`@silent ${formatTimestamp()} The bot is being restarted.`);
+                await user.send(`${formatTimestamp()} The bot is being restarted.`);
             }
 
             exec(`pm2 restart mao`);
