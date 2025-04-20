@@ -28,6 +28,7 @@
     "@ptkdev/logger": "^1.8.0",
     "ascii-table": "^0.0.9",
     "axios": "^1.7.2",
+    "bgutils-js": "^3.2.0",
     "cheerio": "^1.0.0",
     "csv-parser": "^3.0.0",
     "discord-player": "^6.6.10",
