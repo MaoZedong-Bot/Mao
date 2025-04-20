@@ -6,20 +6,20 @@ data: new SlashCommandBuilder()
     .setName('inspire')
     .setDescription('Generates a completely absurd inspirational quote'),
 async execute(interaction) {
-    const model = 'llama3.2:1b';
+    const model = 'tinyllama';
 
     try {
       await interaction.deferReply(); // defer the reply :blush:
-
-    const response = await ollama.chat({
-        model,
-        messages: [
-        {
-            role: 'user',
-            content: 'generate a single completely absurd inspirational quote',
-        },
-        ],
-});
+        const response = await ollama.chat({
+            model,
+            messages: [
+                {
+                    role: 'user',
+                    content: 'Provide a completely absurd and humorous inspirational quote that sounds like it could be genuine, but makes no sense upon reflection.',
+                },
+            ],
+            keep_alive: -1,
+        });
 
     await interaction.editReply(response.message.content);
     } catch (err) {

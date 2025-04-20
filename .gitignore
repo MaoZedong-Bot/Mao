@@ -10,3 +10,4 @@ logs/*.log
 final_overlay.png
 front_overlay.png
 side_overlay.png
+.idea
