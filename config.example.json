@@ -1,5 +1,6 @@
 {
 	"token": "your-token-goes-here",
 	"clientId": "your-application-id-goes-here",
-	"maptilerKey": "your-maptiler-api-key-goes-here"
+	"maptilerKey": "your-maptiler-api-key-goes-here",
+	"gemini_api": ""
 }
