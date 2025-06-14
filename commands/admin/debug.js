@@ -45,7 +45,7 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName(`gemini`)
-                .setDescription(`(i love undocumented bullshit) Use Gemini to generate a response`)
+                .setDescription(`Use Gemini to generate a response`)
                 .addStringOption(option =>
                     option.setName(`prompt`)
                         .setDescription(`Enter the prompt to send to Gemini`)
@@ -107,10 +107,10 @@ module.exports = {
 
                 logger.info(`Gemini AI used by ${interaction.user.tag} (${interaction.user.id}) - Prompt: ${prompt}`);
 
-                await interaction.followUp({ embeds: [embed], ephemeral: true });
+                await interaction.followUp({ embeds: [embed], ephemeral: false });
             } catch (error) {
                 logger.error(`Error processing Gemini prompt: ${error.message}`);
-                await interaction.followUp({ content: `An error occurred while processing your request: ${error.message}`, ephemeral: true });
+                await interaction.followUp({ content: `An error occurred while processing your request: ${error.message}`, ephemeral: false });
             }
 
             return;
