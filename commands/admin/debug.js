@@ -45,7 +45,7 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName(`gemini`)
-                .setDescription(`Use Gemini to generate a response`)
+                .setDescription(`(Use Gemini to generate a response`)
                 .addStringOption(option =>
                     option.setName(`prompt`)
                         .setDescription(`Enter the prompt to send to Gemini`)
@@ -73,19 +73,20 @@ module.exports = {
             const prompt = interaction.options.getString(`prompt`);
 
             if (prompt.length > 500) {
-                await interaction.reply({ content: `Prompt is too long (maximum is 500 characters).`, ephemeral: true });
+                // Remove `ephemeral: true` to make the message visible for everyone in the channel
+                await interaction.reply({ content: `Prompt is too long (maximum is 500 characters).` });
                 return;
             }
 
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply();
 
             try {
                 const genAI = new GoogleGenerativeAI(config.gemini_api);
                 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
                 const safePrompt = `You are a helpful AI assistant in a Discord server. 
-                                    Please provide a helpful, friendly, and appropriate response to: ${prompt}
-                                    Keep the response concise and under 500 characters. If the output contains a bad word or explicit content refuse to answer.`;
+                            Please provide a helpful, friendly, and appropriate response to: ${prompt}
+                            Keep the response concise and under 500 characters. If the output contains a bad word or explicit content refuse to answer.`;
 
                 const result = await model.generateContent(safePrompt);
                 const response = result.response.text();
@@ -107,10 +108,12 @@ module.exports = {
 
                 logger.info(`Gemini AI used by ${interaction.user.tag} (${interaction.user.id}) - Prompt: ${prompt}`);
 
-                await interaction.followUp({ embeds: [embed], ephemeral: false });
+                // Remove `ephemeral: true` to make this message visible for everyone
+                await interaction.followUp({ embeds: [embed] });
             } catch (error) {
                 logger.error(`Error processing Gemini prompt: ${error.message}`);
-                await interaction.followUp({ content: `An error occurred while processing your request: ${error.message}`, ephemeral: false });
+                // Make this error response visible for everyone
+                await interaction.followUp({ content: `An error occurred while processing your request: ${error.message}` });
             }
 
             return;
