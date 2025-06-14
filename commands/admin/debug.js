@@ -45,7 +45,7 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName(`gemini`)
-                .setDescription(`(Undocumented) Use Gemini AI to generate a response`)
+                .setDescription(`(i love undocumented bullshit) Use Gemini to generate a response`)
                 .addStringOption(option =>
                     option.setName(`prompt`)
                         .setDescription(`Enter the prompt to send to Gemini`)
