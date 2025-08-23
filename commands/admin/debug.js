@@ -26,6 +26,10 @@ module.exports = {
                 .setDescription(`Restart the bot`))
         .addSubcommand(subcommand =>
             subcommand
+                .setName(`npmupdate`)
+                .setDescription(`npm i`))
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName(`change_status`)
                 .setDescription(`Change the bot status`)
                 .addStringOption(option =>
@@ -239,7 +243,7 @@ module.exports = {
             await interaction.reply({ content: `Status changed to: ${newStatus} (${activityType})`, ephemeral: true });
         }
 
-        if (subcommand === `update`) {
+        if (subcommand === `npmupdate`) {
             await interaction.deferReply({ ephemeral: true });
 
             const rootDir = path.resolve(__dirname, `../../`);
