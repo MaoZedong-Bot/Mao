@@ -209,7 +209,7 @@ module.exports = {
                 await user.send(`${formatTimestamp()} The bot is being restarted.`);
             }
 
-            exec(`pm2 restart mao`);
+            exec(`npx pm2 restart mao`);
             return;
         }
 
