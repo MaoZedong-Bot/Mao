@@ -208,6 +208,7 @@ module.exports = {
                 const user = await interaction.client.users.fetch(userId);
                 await user.send(`${formatTimestamp()} The bot is being restarted.`);
             }
+            await interaction.followUp({ content: `Restarting bot.` });
 
             exec(`npx pm2 restart mao`);
             return;
@@ -237,6 +238,19 @@ module.exports = {
 
             interaction.client.user.setActivity(newStatus, { type: activityTypeEnum });
             await interaction.reply({ content: `Status changed to: ${newStatus} (${activityType})`, ephemeral: true });
+        }
+
+        if (subcommand === `update`) {
+            await interaction.deferReply({ ephemeral: true });
+
+            const rootDir = path.resolve(__dirname, `../../`);
+            await interaction.followUp({ content: `Updating libraries and restarting bot.` });
+
+            exec("npm i", { cwd: rootDir });
+            exec(`npx pm2 restart mao`);
+
+
+            return;
         }
     }
 };
