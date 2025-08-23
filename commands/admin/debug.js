@@ -204,11 +204,10 @@ module.exports = {
         if (subcommand === `restart_bot`) {
             await interaction.reply({ content: `Restarting bot...`, ephemeral: true });
 
-            for (const userId of notifyUserIds) {
+            /*for (const userId of notifyUserIds) {
                 const user = await interaction.client.users.fetch(userId);
                 await user.send(`${formatTimestamp()} The bot is being restarted.`);
-            }
-            await interaction.followUp({ content: `Restarting bot.` });
+            }*/
 
             exec(`npx pm2 restart mao`);
             return;
