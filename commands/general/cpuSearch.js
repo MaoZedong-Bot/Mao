@@ -12,7 +12,7 @@ async function scrapeCpuList(query) {
         return cachedResults;
     }
 
-    const url = `https://www.techpowerup.com/cpu-specs/?ajaxsrch=&q=${encodeURIComponent(query)}`;
+    const url = `https://www.techpowerup.com/cpu-specs/?q=${encodeURIComponent(query)}`;
     try {
         const response = await axios.get(url, {
             headers: {

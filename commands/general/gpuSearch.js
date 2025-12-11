@@ -11,8 +11,7 @@ async function scrapeGpuList(query) {
         return cachedResults;
     }
 
-    // Ensure the query parameter has the proper format (added the "=" after q)
-    const url = `https://www.techpowerup.com/gpu-specs/?ajaxsrch=${encodeURIComponent(query)}`;
+    const url = `https://www.techpowerup.com/gpu-specs/?q=${encodeURIComponent(query)}`;
     const response = await axios.get(url, {
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.6788.76 Safari/537.36'
@@ -22,11 +21,16 @@ async function scrapeGpuList(query) {
     const $ = cheerio.load(html);
 
     const results = [];
-    $('table.processors tbody tr').each((index, element) => {
-        const name = $(element).find('td:nth-child(1) a').text().trim();
-        const href = $(element).find('td:nth-child(1) a').attr('href');
-        const link = href ? `https://www.techpowerup.com${href}` : '';
-        results.push({ name, link });
+    $('table.items-desktop-table tbody tr').each((index, element) => {
+        const nameElem = $(element).find('td .item-title .item-name a');
+        const name = nameElem.text().trim();
+        const href = nameElem.attr('href');
+        const link = href ? `https://www.techpowerup.com${href}` : null;
+
+        // Only add if name and link exist
+        if (name && link) {
+            results.push({ name, link });
+        }
     });
 
     cache.set(cacheKey, results);
@@ -61,6 +65,7 @@ async function scrapeGpuDetails(url) {
             }
         });
     });
+
     cache.set(cacheKey, specs);
     return specs;
 }
